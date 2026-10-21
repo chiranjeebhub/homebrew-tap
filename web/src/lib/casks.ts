@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 
 import { CASK_OVERRIDES, OTHER_APPS } from "@/content/apps"
+import { findAppStoreIcon, findRepoIcon, findSiteIcon } from "@/lib/app-icons"
 import type { App } from "@/lib/types"
 
 const CASKS_DIR = path.join(process.cwd(), "..", "Casks")
@@ -13,39 +14,6 @@ const MACOS_NAMES: Record<string, string> = {
   sonoma: "macOS 14 Sonoma",
   sequoia: "macOS 15 Sequoia",
   tahoe: "macOS 26 Tahoe",
-}
-
-// Where Mac app repos usually keep their icon, best first. {repo} is the repo name.
-const ICON_PATHS = [
-  "docs/images/icon.png",
-  "docs/images/logo.png",
-  "{repo}/Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
-  "{repo}/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
-  "Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
-  "Resources/AppIcon.png",
-  "Resources/AppIcon.svg",
-  "icon.png",
-  "logo.png",
-  "AppIcon.png",
-]
-
-/** Finds the app's icon in its GitHub repo at build time. Returns its raw URL, or undefined if there is none. */
-async function findRepoIcon(homepage?: string): Promise<string | undefined> {
-  const repo = homepage?.match(/^https:\/\/github\.com\/([^/]+)\/([^/#?]+)/)
-  if (!repo) return undefined
-  const [, owner, name] = repo
-
-  const urls = ICON_PATHS.map(
-    (p) => `https://raw.githubusercontent.com/${owner}/${name}/HEAD/${p.replace("{repo}", name)}`,
-  )
-  const found = await Promise.all(
-    urls.map((url) =>
-      fetch(url, { method: "HEAD", signal: AbortSignal.timeout(8000) })
-        .then((res) => res.ok)
-        .catch(() => false),
-    ),
-  )
-  return urls[found.indexOf(true)]
 }
 
 function field(source: string, name: string) {
@@ -98,5 +66,16 @@ export async function getApps(): Promise<App[]> {
     }),
   )
 
-  return [...casks, ...OTHER_APPS].sort((a, b) => (a.order ?? 100) - (b.order ?? 100) || a.name.localeCompare(b.name))
+  const others = await Promise.all(
+    OTHER_APPS.map(async (app) => ({
+      ...app,
+      icon:
+        app.icon ??
+        (await findAppStoreIcon(app.links.appStore)) ??
+        (await findRepoIcon(app.links.source)) ??
+        (await findSiteIcon(app.links.website)),
+    })),
+  )
+
+  return [...casks, ...others].sort((a, b) => (a.order ?? 100) - (b.order ?? 100) || a.name.localeCompare(b.name))
 }

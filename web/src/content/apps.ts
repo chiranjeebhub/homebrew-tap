@@ -13,16 +13,93 @@ export const CASK_OVERRIDES: Record<string, Partial<App>> = {
 }
 
 // Apps that are not in the tap: iOS, Android and web apps. The Projects toggle
-// puts iOS and Android under Mobile Apps and "Web" under Web Apps.
+// puts iOS and Android under Mobile Apps and "Web" under Web Apps; an app with
+// both shows in both. Icons are filled in at build time from the App Store
+// listing, or from the website's icon, unless `icon` is set here.
 export const OTHER_APPS: App[] = [
-  // {
-  //   id: "my-ios-app",
-  //   name: "My iOS App",
-  //   description: "What it does, in one line.",
-  //   platforms: ["iOS"],
-  //   icon: "/icons/my-ios-app.png",
-  //   links: { appStore: "https://apps.apple.com/app/id0000000000" },
-  // },
+  // Mobile
+  {
+    id: "garage-hq",
+    name: "Garage HQ",
+    description: "Network OS for business. Manage your company's networks, stakeholders and connections in one virtual office.",
+    platforms: ["iOS"],
+    order: 1,
+    links: { appStore: "https://apps.apple.com/in/app/garage-hq/id6754905027" },
+  },
+  {
+    id: "garage-connect",
+    name: "Garage Connect",
+    description: "Your network is your net worth. One place for your personal and professional network.",
+    platforms: ["iOS"],
+    order: 2,
+    links: { appStore: "https://apps.apple.com/in/app/garage-connect/id6758221987" },
+  },
+  {
+    id: "garageirl",
+    name: "GarageIRL",
+    description: "The all-in-one app for merchants on the Garage network: set up a store, take payments and manage products.",
+    platforms: ["iOS"],
+    order: 3,
+    links: { appStore: "https://apps.apple.com/in/app/garageirl/id6799842262" },
+  },
+  {
+    id: "taskrooms",
+    name: "TaskRooms",
+    description: "A real-time workspace that brings tasks, files, conversations and deadlines together, on web and mobile.",
+    platforms: ["Web", "iOS"],
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8d/dd/d4/8dddd40f-a3ec-66e2-5be0-6e7ff005c05b/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.png",
+    status: "iOS beta in review",
+    order: 4,
+    links: { website: "https://taskrooms.com/", testFlight: "https://testflight.apple.com/join/efMsxqFP" },
+  },
+  {
+    id: "game",
+    name: "Untitled game",
+    description: "A new iOS game, coming to TestFlight.",
+    platforms: ["iOS"],
+    status: "TestFlight review",
+    order: 5,
+    links: { testFlight: "https://testflight.apple.com/join/GAHyDp75" },
+  },
+
+  // Web
+  {
+    id: "gita-shuffle",
+    name: "Gita Shuffle",
+    description: "A random verse from the Bhagavad Gita every day, with the Sanskrit, a transliteration and its meaning.",
+    platforms: ["Web"],
+    order: 11,
+    links: { website: "https://gitashuffle.com/" },
+  },
+  {
+    id: "devstorage",
+    name: "DevStorage",
+    description: "Developer-first file upload infrastructure, backed by Cloudflare R2.",
+    platforms: ["Web"],
+    status: "In progress",
+    order: 12,
+    links: { website: "https://www.devstorage.io/" },
+  },
+  {
+    id: "devmailer",
+    name: "DevMailer",
+    description: "Coming soon.",
+    platforms: ["Web"],
+    status: "In progress",
+    order: 13,
+    links: { website: "https://www.devmailer.io/" },
+  },
+  {
+    id: "jsframework",
+    name: "JSFramework.dev",
+    description: "Coming soon.",
+    platforms: ["Web"],
+    status: "In progress",
+    order: 14,
+    links: { website: "https://jsframework.dev/" },
+  },
+
+  // Template for an Android app:
   // {
   //   id: "my-android-app",
   //   name: "My Android App",

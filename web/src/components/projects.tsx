@@ -29,7 +29,7 @@ export function Projects({ apps }: { apps: App[] }) {
   return (
     <Panel id="projects">
       <PanelHeader className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-        <PanelTitle id="projects" count={apps.length}>
+        <PanelTitle id="projects" count={shown.length}>
           Projects
         </PanelTitle>
 
@@ -60,7 +60,7 @@ export function Projects({ apps }: { apps: App[] }) {
         <ul role="tabpanel" aria-label={tab.label}>
           {shown.map((app, i) => (
             <li key={app.id} className={cn(i > 0 && "border-t border-line")}>
-              <AppItem app={app} defaultOpen={i === 0} />
+              <AppItem app={app} />
             </li>
           ))}
         </ul>
@@ -73,14 +73,14 @@ export function Projects({ apps }: { apps: App[] }) {
   )
 }
 
-function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
+function AppItem({ app }: { app: App }) {
   const { links } = app
 
   return (
-    <details className="group" open={defaultOpen}>
+    <details className="group">
       <summary className="flex cursor-pointer items-center hover:bg-accent-muted">
         {app.icon ? (
-          <img src={app.icon} alt="" width={40} height={40} loading="lazy" className="mx-3 size-10 shrink-0 object-contain" />
+          <img src={app.icon} alt="" width={40} height={40} loading="lazy" className="mx-3 size-10 shrink-0 rounded-[22%] object-contain" />
         ) : (
           <IconTile className="mx-4 size-8 rounded-lg">
             {app.platforms.includes("macOS") ? <LaptopIcon /> : app.platforms.includes("Web") ? <GlobeIcon /> : <SmartphoneIcon />}
@@ -94,6 +94,7 @@ function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
           </div>
 
           <div className="hidden shrink-0 gap-1 sm:flex">
+            {app.status && <StatusTag status={app.status} />}
             {app.platforms.map((p) => (
               <Tag key={p}>{p}</Tag>
             ))}
@@ -104,7 +105,12 @@ function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
       </summary>
 
       <div className="space-y-4 border-t border-line p-4">
-        <ul className="flex flex-wrap gap-1.5">
+        <ul className={cn("flex flex-wrap gap-1.5", !(app.version || app.requirement || app.autoUpdates) && "sm:hidden")}>
+          {app.status && (
+            <li className="flex sm:hidden">
+              <StatusTag status={app.status} />
+            </li>
+          )}
           {app.platforms.map((p) => (
             <li key={p} className="flex sm:hidden">
               <Tag>{p}</Tag>
@@ -142,6 +148,12 @@ function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
               App Store
             </ButtonLink>
           )}
+          {links.testFlight && (
+            <ButtonLink href={links.testFlight}>
+              <AppleIcon />
+              TestFlight
+            </ButtonLink>
+          )}
           {links.googlePlay && (
             <ButtonLink
               href={links.googlePlay}
@@ -172,5 +184,14 @@ function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
         </div>
       </div>
     </details>
+  )
+}
+
+function StatusTag({ status }: { status: string }) {
+  return (
+    <Tag className="border-amber-500/30 bg-amber-500/10 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
+      <span className="size-1.5 rounded-full bg-current" aria-hidden />
+      {status}
+    </Tag>
   )
 }

@@ -83,7 +83,6 @@ export async function ContributionGraph({ className }: { className?: string }) {
       </GraphTooltip>
       <figcaption className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm">
         <span>
-          <span className="mr-2 text-muted-foreground">Fig. 1.</span>
           {data.total.toLocaleString("en-US")} contributions, {formatDate(first)} – {formatDate(last)}. Source:{" "}
           <a
             className="underline decoration-muted-foreground/50 underline-offset-4 hover:decoration-foreground"
