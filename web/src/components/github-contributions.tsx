@@ -1,8 +1,6 @@
 import { PROFILE } from "@/content/profile"
 import { cn } from "@/lib/utils"
 
-import { Panel, PanelHeader, PanelTitle } from "./panel"
-
 type Day = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }
 
 const LEVELS = [
@@ -27,54 +25,48 @@ async function getContributions(): Promise<{ total: number; days: Day[] } | null
   }
 }
 
-/** Contribution heatmap, fetched once at build time. */
-export async function GitHubContributions() {
+/** Contribution heatmap, fetched once at build time. Fills the column width. */
+export async function ContributionGraph({ className }: { className?: string }) {
   const data = await getContributions()
   if (!data || data.days.length === 0) return null
 
-  // Pad the front so the first column starts on a Sunday, then split into weeks.
+  // Pad the front so the first column starts on a Sunday; the grid then fills column by column.
   const offset = new Date(data.days[0].date).getUTCDay()
   const cells: (Day | null)[] = [...Array(offset).fill(null), ...data.days]
-  const weeks: (Day | null)[][] = []
-  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7))
+  const weeks = Math.ceil(cells.length / 7)
 
   return (
-    <Panel id="github">
-      <PanelHeader>
-        <PanelTitle id="github">GitHub</PanelTitle>
-      </PanelHeader>
-      <figure className="space-y-3 p-4">
-        <div className="overflow-x-auto [scrollbar-width:none]">
-          <div className="flex w-max gap-[3px]">
-            {weeks.map((week, w) => (
-              <div key={w} className="flex flex-col gap-[3px]">
-                {week.map((day, d) => (
-                  <div
-                    key={d}
-                    title={day ? `${day.count} contributions on ${day.date}` : undefined}
-                    className={cn("size-2.5 rounded-[2px]", day ? LEVELS[day.level] : "bg-transparent")}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
+    <figure className={cn("space-y-3", className)}>
+      {/* Right-to-left scrolling so narrow screens open on the most recent weeks. */}
+      <div className="overflow-x-auto [direction:rtl] [scrollbar-width:none]">
+        <div
+          className="grid min-w-[36rem] [direction:ltr] grid-flow-col grid-rows-7 gap-[3px] sm:gap-1"
+          style={{ gridTemplateColumns: `repeat(${weeks}, minmax(0, 1fr))` }}
+        >
+          {cells.map((day, i) => (
+            <div
+              key={i}
+              title={day ? `${day.count} contributions on ${day.date}` : undefined}
+              className={cn("aspect-square rounded-[3px]", day ? LEVELS[day.level] : "bg-transparent")}
+            />
+          ))}
         </div>
-        <figcaption className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
-          <span>
-            {data.total.toLocaleString("en-US")} contributions in the last year on{" "}
-            <a className="link text-foreground" href={PROFILE.socials.github} target="_blank" rel="noopener">
-              GitHub
-            </a>
-          </span>
-          <span className="flex items-center gap-1 text-xs">
-            Less
-            {LEVELS.map((c) => (
-              <span key={c} className={cn("size-2.5 rounded-[2px]", c)} />
-            ))}
-            More
-          </span>
-        </figcaption>
-      </figure>
-    </Panel>
+      </div>
+      <figcaption className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+        <span>
+          {data.total.toLocaleString("en-US")} contributions in the last year on{" "}
+          <a className="link text-foreground" href={PROFILE.socials.github} target="_blank" rel="noopener">
+            GitHub
+          </a>
+        </span>
+        <span className="flex items-center gap-1">
+          Less
+          {LEVELS.map((c) => (
+            <span key={c} className={cn("size-3 rounded-[3px]", c)} />
+          ))}
+          More
+        </span>
+      </figcaption>
+    </figure>
   )
 }

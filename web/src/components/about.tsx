@@ -1,5 +1,6 @@
 import { PROFILE } from "@/content/profile"
 
+import { ContributionGraph } from "./github-contributions"
 import { Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
 
 export function About() {
@@ -19,6 +20,7 @@ export function About() {
           ))}
         </ul>
       </PanelContent>
+      <ContributionGraph className="border-t border-line p-4" />
     </Panel>
   )
 }

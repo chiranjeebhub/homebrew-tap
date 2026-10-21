@@ -11,47 +11,64 @@ import { Command } from "./copy-button"
 import { AppleIcon, GitHubIcon, GooglePlayIcon } from "./icons"
 import { ButtonLink, IconTile, Panel, PanelHeader, PanelTitle, Tag } from "./panel"
 
-const PLATFORMS: Platform[] = ["macOS", "iOS", "Android"]
+const TABS = [
+  { id: "mac", label: "Mac Apps", empty: "No Mac apps here yet.", icon: LaptopIcon, platforms: ["macOS"] },
+  { id: "mobile", label: "Mobile Apps", empty: "No mobile apps here yet.", icon: SmartphoneIcon, platforms: ["iOS", "Android"] },
+  { id: "web", label: "Web Apps", empty: "No web apps here yet.", icon: GlobeIcon, platforms: ["Web"] },
+] as const satisfies { id: string; label: string; empty: string; icon: unknown; platforms: Platform[] }[]
 
-export function Apps({ apps }: { apps: App[] }) {
-  const available = PLATFORMS.filter((p) => apps.some((a) => a.platforms.includes(p)))
-  const [filter, setFilter] = useState<Platform | "All">("All")
-  const shown = filter === "All" ? apps : apps.filter((a) => a.platforms.includes(filter))
+type TabId = (typeof TABS)[number]["id"]
+
+const inTab = (app: App, tab: (typeof TABS)[number]) => app.platforms.some((p) => (tab.platforms as readonly Platform[]).includes(p))
+
+export function Projects({ apps }: { apps: App[] }) {
+  const [active, setActive] = useState<TabId>(() => (TABS.find((t) => apps.some((a) => inTab(a, t))) ?? TABS[0]).id)
+  const tab = TABS.find((t) => t.id === active)!
+  const shown = apps.filter((a) => inTab(a, tab))
 
   return (
-    <Panel id="apps">
-      <PanelHeader className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
-        <PanelTitle id="apps" count={apps.length}>
-          Apps
+    <Panel id="projects">
+      <PanelHeader className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+        <PanelTitle id="projects" count={apps.length}>
+          Projects
         </PanelTitle>
 
-        {available.length > 1 && (
-          <div role="group" aria-label="Filter by platform" className="mb-1 flex gap-1 font-mono text-xs">
-            {(["All", ...available] as const).map((p) => (
-              <button
-                key={p}
-                type="button"
-                aria-pressed={filter === p}
-                onClick={() => setFilter(p)}
-                className={cn(
-                  "h-7 rounded-md border px-2 transition-colors",
-                  filter === p ? "bg-foreground text-background" : "text-muted-foreground hover:bg-accent",
-                )}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        )}
+        <div role="tablist" aria-label="Project type" className="flex w-full rounded-xl border bg-surface p-1 sm:w-auto">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              aria-selected={active === t.id}
+              onClick={() => setActive(t.id)}
+              className={cn(
+                "flex h-8 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-sm whitespace-nowrap transition-colors sm:px-3",
+                "[&_svg]:size-4 [&_svg]:shrink-0 max-[400px]:[&_svg]:hidden",
+                active === t.id
+                  ? "bg-foreground font-semibold text-background shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <t.icon aria-hidden />
+              {t.label}
+            </button>
+          ))}
+        </div>
       </PanelHeader>
 
-      <ul>
-        {shown.map((app, i) => (
-          <li key={app.id} className={cn(i > 0 && "border-t border-line")}>
-            <AppItem app={app} defaultOpen={i === 0} />
-          </li>
-        ))}
-      </ul>
+      {shown.length > 0 ? (
+        <ul role="tabpanel" aria-label={tab.label}>
+          {shown.map((app, i) => (
+            <li key={app.id} className={cn(i > 0 && "border-t border-line")}>
+              <AppItem app={app} defaultOpen={i === 0} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p role="tabpanel" aria-label={tab.label} className="dot-grid px-4 py-10 text-center text-sm text-muted-foreground">
+          {tab.empty}
+        </p>
+      )}
     </Panel>
   )
 }
@@ -62,15 +79,13 @@ function AppItem({ app, defaultOpen }: { app: App; defaultOpen?: boolean }) {
   return (
     <details className="group" open={defaultOpen}>
       <summary className="flex cursor-pointer items-center hover:bg-accent-muted">
-        <IconTile className="mx-4 size-8 rounded-lg">
-          {app.icon ? (
-            <img src={app.icon} alt="" className="size-full rounded-[inherit] object-cover" />
-          ) : app.platforms.includes("macOS") ? (
-            <LaptopIcon />
-          ) : (
-            <SmartphoneIcon />
-          )}
-        </IconTile>
+        {app.icon ? (
+          <img src={app.icon} alt="" width={40} height={40} loading="lazy" className="mx-3 size-10 shrink-0 object-contain" />
+        ) : (
+          <IconTile className="mx-4 size-8 rounded-lg">
+            {app.platforms.includes("macOS") ? <LaptopIcon /> : app.platforms.includes("Web") ? <GlobeIcon /> : <SmartphoneIcon />}
+          </IconTile>
+        )}
 
         <div className="flex flex-1 items-center gap-2 border-l border-dashed border-line p-4">
           <div className="flex-1">

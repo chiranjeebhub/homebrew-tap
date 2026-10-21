@@ -6,7 +6,7 @@ import { useActiveSection } from "./use-active-section"
 
 const NAV = [
   { id: "", label: "Home" },
-  { id: "apps", label: "Apps" },
+  { id: "projects", label: "Projects" },
   { id: "homebrew", label: "Homebrew" },
   { id: "contact", label: "Contact" },
 ]

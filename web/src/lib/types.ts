@@ -1,4 +1,4 @@
-export type Platform = "macOS" | "iOS" | "Android"
+export type Platform = "macOS" | "iOS" | "Android" | "Web"
 
 export type App = {
   id: string

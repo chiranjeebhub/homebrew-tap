@@ -5,13 +5,15 @@ import type { App } from "@/lib/types"
 
 // Extra details for a cask, keyed by its token (the name in `cask "..." do`).
 // Anything set here wins over what the cask says. For example, add an App Store
-// link to a Mac app that is also on the Mac App Store, or give it an icon placed
-// in web/public/icons/.
+// link to a Mac app that is also on the Mac App Store. Icons are found in the
+// app's GitHub repo automatically; set `icon` here (a file in web/public/icons/)
+// only to use a different one.
 export const CASK_OVERRIDES: Record<string, Partial<App>> = {
   // notchdeck: { icon: "/icons/notchdeck.png", order: 1 },
 }
 
-// Apps that are not in the tap, such as iOS and Android apps.
+// Apps that are not in the tap: iOS, Android and web apps. The Projects toggle
+// puts iOS and Android under Mobile Apps and "Web" under Web Apps.
 export const OTHER_APPS: App[] = [
   // {
   //   id: "my-ios-app",

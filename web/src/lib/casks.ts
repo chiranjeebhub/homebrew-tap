@@ -15,6 +15,39 @@ const MACOS_NAMES: Record<string, string> = {
   tahoe: "macOS 26 Tahoe",
 }
 
+// Where Mac app repos usually keep their icon, best first. {repo} is the repo name.
+const ICON_PATHS = [
+  "docs/images/icon.png",
+  "docs/images/logo.png",
+  "{repo}/Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
+  "{repo}/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
+  "Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
+  "Resources/AppIcon.png",
+  "Resources/AppIcon.svg",
+  "icon.png",
+  "logo.png",
+  "AppIcon.png",
+]
+
+/** Finds the app's icon in its GitHub repo at build time. Returns its raw URL, or undefined if there is none. */
+async function findRepoIcon(homepage?: string): Promise<string | undefined> {
+  const repo = homepage?.match(/^https:\/\/github\.com\/([^/]+)\/([^/#?]+)/)
+  if (!repo) return undefined
+  const [, owner, name] = repo
+
+  const urls = ICON_PATHS.map(
+    (p) => `https://raw.githubusercontent.com/${owner}/${name}/HEAD/${p.replace("{repo}", name)}`,
+  )
+  const found = await Promise.all(
+    urls.map((url) =>
+      fetch(url, { method: "HEAD", signal: AbortSignal.timeout(8000) })
+        .then((res) => res.ok)
+        .catch(() => false),
+    ),
+  )
+  return urls[found.indexOf(true)]
+}
+
 function field(source: string, name: string) {
   const match = source.match(new RegExp(`^\\s*${name}\\s+"([^"]*)"`, "m"))
   return match?.[1]
@@ -45,7 +78,7 @@ export function parseCask(source: string): App | null {
   }
 }
 
-export function getApps(): App[] {
+export async function getApps(): Promise<App[]> {
   let files: string[] = []
   try {
     files = fs.readdirSync(CASKS_DIR).filter((f) => f.endsWith(".rb"))
@@ -53,13 +86,17 @@ export function getApps(): App[] {
     // No Casks folder next to web/: show only the apps from content/apps.ts.
   }
 
-  const casks = files
+  const parsed = files
     .map((f) => parseCask(fs.readFileSync(path.join(CASKS_DIR, f), "utf8")))
     .filter((app): app is App => app !== null)
-    .map((app) => {
+
+  const casks = await Promise.all(
+    parsed.map(async (app) => {
       const extra = CASK_OVERRIDES[app.id] ?? {}
-      return { ...app, ...extra, links: { ...app.links, ...extra.links } }
-    })
+      const icon = extra.icon ?? (await findRepoIcon(app.links.source))
+      return { ...app, ...extra, icon, links: { ...app.links, ...extra.links } }
+    }),
+  )
 
   return [...casks, ...OTHER_APPS].sort((a, b) => (a.order ?? 100) - (b.order ?? 100) || a.name.localeCompare(b.name))
 }

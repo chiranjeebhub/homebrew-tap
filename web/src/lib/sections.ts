@@ -2,8 +2,7 @@
 export const SECTIONS = [
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
-  { id: "apps", label: "Apps" },
+  { id: "projects", label: "Projects" },
   { id: "homebrew", label: "Homebrew" },
-  { id: "github", label: "GitHub" },
   { id: "sponsor", label: "Sponsor" },
 ]
