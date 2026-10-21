@@ -19,7 +19,9 @@ export const PROFILE = {
   location: "", // e.g. "Bengaluru, India"
   email: "", // e.g. "hello@chiranjeeb.dev"
 
-  // Bullet points for the About section.
+  // The About section: an intro paragraph, then bullet points.
+  intro:
+    "I'm an independent developer building apps for the Mac, iPhone and the web, mostly small tools I wanted for myself first.",
   about: [
     "Mac: open-source utilities that install with one Homebrew command.",
     "iPhone: apps on the App Store, with more in TestFlight.",

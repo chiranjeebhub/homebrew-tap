@@ -4,14 +4,15 @@ import { ContributionGraph } from "./github-contributions"
 import { Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
 
 export function About() {
-  if (PROFILE.about.length === 0) return null
+  if (!PROFILE.intro && PROFILE.about.length === 0) return null
 
   return (
     <Panel id="about" screenLines="top">
       <PanelHeader>
         <PanelTitle id="about">About</PanelTitle>
       </PanelHeader>
-      <PanelContent className="py-6">
+      <PanelContent className="space-y-4 py-6">
+        {PROFILE.intro && <p className="text-base/relaxed text-pretty text-muted-foreground">{PROFILE.intro}</p>}
         <ul className="list-disc space-y-2.5 pl-5 text-base/relaxed text-pretty text-muted-foreground marker:text-muted-foreground/50">
           {PROFILE.about.map((item, i) => {
             // "Mac: ..." shows the platform in the foreground colour.
