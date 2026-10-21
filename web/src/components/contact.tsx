@@ -16,15 +16,8 @@ export function Contact() {
   if (links.length === 0) return null
 
   return (
-    <Panel
-      id="contact"
-      aria-label="Contact"
-      screenLines="none"
-      // Links land the tiles at the bottom of the screen, under About, so the short strip is clearly the
-      // section reached and Projects stays out of view: there is no title row to land on.
-      className="target-flash sm:scroll-mt-[calc(100vh-var(--header-height)-2rem-6.0625rem)]"
-    >
-      <ul className={cn("grid grid-cols-1 border-t border-line", links.length > 1 && "sm:grid-cols-3")}>
+    <Panel id="contact" aria-label="Contact" className="target-flash">
+      <ul className={cn("grid grid-cols-1", links.length > 1 && "sm:grid-cols-3")}>
         {links.map((item, i) => (
           <li key={item.title} className={cn(i > 0 && "border-t border-line sm:border-t-0 sm:border-l")}>
             <a

@@ -1,5 +1,4 @@
 import { About } from "@/components/about"
-import { Contact } from "@/components/contact"
 import { Experience } from "@/components/experience"
 import { Homebrew } from "@/components/homebrew"
 import { ProfileHeader } from "@/components/profile-header"
@@ -15,7 +14,6 @@ export default async function HomePage() {
     <div className="mx-auto max-w-3xl">
       <ProfileHeader apps={apps} />
       <About />
-      <Contact />
       <Projects apps={apps} />
       <Experience />
       <Stack />

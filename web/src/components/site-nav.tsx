@@ -5,17 +5,15 @@ import { cn } from "@/lib/utils"
 
 import { useActiveSection } from "./use-active-section"
 
-const IN_NAV = ["projects", "experience", "stack", "homebrew", "contact"]
-
-const NAV = [{ id: "", label: "Home" }, ...IN_NAV.flatMap((id) => SECTIONS.filter((s) => s.id === id))]
-
-const IDS = NAV.map((n) => n.id).filter(Boolean)
+// Same sections, in the same order, as the side index. The monogram links home.
+const NAV = SECTIONS
+const IDS = NAV.map((n) => n.id)
 
 export function SiteNav() {
   const active = useActiveSection(IDS)
 
   return (
-    <nav className="ml-auto flex items-center gap-5 text-sm max-sm:hidden" aria-label="Main">
+    <nav className="ml-auto flex items-center gap-4 text-sm max-md:hidden" aria-label="Main">
       {NAV.map((item) => (
         <a
           key={item.label}
