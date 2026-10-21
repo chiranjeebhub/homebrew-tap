@@ -1,3 +1,6 @@
+/* Layout primitives (screen lines, stripes, dot grid, zinc palette) adapted from
+   ncdai/chanhdai.com, MIT License, Copyright (c) Nguyen Chanh Dai. */
+
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));

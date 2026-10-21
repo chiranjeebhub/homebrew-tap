@@ -8,7 +8,6 @@ export function SiteFooter() {
     { label: "Deployed on", value: "Vercel", href: "https://vercel.com" },
     { label: "Source code", value: "GitHub", href: PROFILE.repo },
     { label: "Typeface", value: "Geist", href: "https://vercel.com/font" },
-    { label: "Design inspired by", value: "chanhdai.com", href: "https://github.com/ncdai/chanhdai.com" },
   ]
 
   return (
