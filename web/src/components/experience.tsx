@@ -1,4 +1,4 @@
-import { BriefcaseIcon, ChevronsUpDownIcon, CodeXmlIcon, LightbulbIcon, PenToolIcon, SmartphoneIcon, UsersIcon } from "lucide-react"
+import { BriefcaseIcon, ChevronsDownUpIcon, ChevronsUpDownIcon, CodeXmlIcon, LightbulbIcon, PenToolIcon, SmartphoneIcon, UsersIcon } from "lucide-react"
 
 import { EXPERIENCE } from "@/content/experience"
 import type { Company, Role } from "@/lib/types"
@@ -109,16 +109,31 @@ function RoleItem({ role, defaultOpen }: { role: Role; defaultOpen: boolean }) {
           <span className="border-l pl-2">{duration(role.start, role.end)}</span>
         </p>
       </div>
-      {hasHighlights && <ChevronsUpDownIcon className="mt-1 size-4 shrink-0 text-muted-foreground" aria-hidden />}
+      {hasHighlights && (
+        <span className="mt-1 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" aria-hidden>
+          <ChevronsUpDownIcon className="size-4 group-open:hidden" />
+          <ChevronsDownUpIcon className="hidden size-4 group-open:block" />
+        </span>
+      )}
     </div>
   )
 
+  // A line runs down from the role's icon and turns, like an L, into the last row: the tags, or the
+  // highlights while they're open. Classes are written out in full so Tailwind can find them.
+  const hasSkills = (role.skills?.length ?? 0) > 0
+  const lineClass = hasSkills
+    ? "before:absolute before:top-10 before:bottom-3 before:left-4 before:w-px before:bg-line after:absolute after:bottom-3 after:left-4 after:h-px after:w-4 after:bg-line"
+    : hasHighlights
+      ? "has-[details[open]]:before:absolute has-[details[open]]:before:top-10 has-[details[open]]:before:bottom-3 has-[details[open]]:before:left-4 has-[details[open]]:before:w-px has-[details[open]]:before:bg-line has-[details[open]]:after:absolute has-[details[open]]:after:bottom-3 has-[details[open]]:after:left-4 has-[details[open]]:after:h-px has-[details[open]]:after:w-4 has-[details[open]]:after:bg-line"
+      : ""
+
   return (
-    // The line down the left joins the role's icon to its details.
-    <div className="relative space-y-3 before:absolute before:top-10 before:bottom-3 before:left-4 before:w-px before:bg-line">
+    <div className={cn("relative space-y-3", lineClass)}>
       {hasHighlights ? (
         <details open={defaultOpen} className="group">
-          <summary className="cursor-pointer">{header}</summary>
+          <summary className="cursor-pointer" aria-label={`${role.title}: show or hide details`}>
+            {header}
+          </summary>
           <ul className="mt-3 list-disc space-y-1.5 pl-16 text-sm/relaxed text-muted-foreground marker:text-muted-foreground/50">
             {role.highlights!.map((h) => (
               <li key={h}>{h}</li>
@@ -128,9 +143,9 @@ function RoleItem({ role, defaultOpen }: { role: Role; defaultOpen: boolean }) {
       ) : (
         header
       )}
-      {role.skills && role.skills.length > 0 && (
+      {hasSkills && (
         <ul className="flex flex-wrap gap-1.5 pl-11">
-          {role.skills.map((s) => (
+          {role.skills!.map((s) => (
             <li key={s} className="flex">
               <Tag className="px-2 text-[0.8125rem]">{s}</Tag>
             </li>
