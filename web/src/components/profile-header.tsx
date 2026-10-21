@@ -17,18 +17,18 @@ export function ProfileHeader() {
         </figure>
       </div>
 
-      <div className="flex items-center gap-5 px-4 pb-6 sm:gap-6 sm:px-10 sm:pb-8">
+      <div className="flex items-center gap-4 px-4 pb-5 sm:px-6 sm:pb-6">
         <img
           src={PROFILE.avatar}
           alt={`${PROFILE.name}'s avatar`}
-          className="size-24 shrink-0 rounded-2xl border-2 border-foreground/80 object-cover select-none sm:size-32"
+          className="size-18 shrink-0 rounded-xl border border-foreground/40 object-cover select-none sm:size-20"
         />
-        <div className="min-w-0 space-y-2">
-          <h1 className="text-4xl/none font-medium tracking-tight sm:text-5xl/none">{PROFILE.name}</h1>
-          <p className="font-mono text-base text-foreground/80 sm:text-lg">{PROFILE.role}</p>
+        <div className="min-w-0 space-y-1">
+          <h1 className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
+          <p className="font-mono text-sm text-muted-foreground">{PROFILE.role}</p>
           {PROFILE.location && (
-            <p className="flex items-center gap-1.5 font-mono text-sm text-muted-foreground">
-              <MapPinIcon className="size-4" aria-hidden />
+            <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+              <MapPinIcon className="size-3.5" aria-hidden />
               {PROFILE.location}
             </p>
           )}

@@ -10,8 +10,8 @@ export function About() {
       <PanelHeader>
         <PanelTitle id="about">About</PanelTitle>
       </PanelHeader>
-      <PanelContent className="py-8">
-        <ul className="list-disc space-y-4 pl-5 text-lg/relaxed text-pretty text-muted-foreground marker:text-muted-foreground/50">
+      <PanelContent className="py-6">
+        <ul className="list-disc space-y-2.5 pl-5 text-[15px]/relaxed text-pretty text-muted-foreground marker:text-muted-foreground/50">
           {PROFILE.about.map((item, i) => (
             <li key={i} className="pl-1">
               {item}
