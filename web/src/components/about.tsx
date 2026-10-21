@@ -1,7 +1,11 @@
+import { GlobeIcon, LaptopIcon, SmartphoneIcon } from "lucide-react"
+
 import { PROFILE } from "@/content/profile"
 
 import { ContributionGraph } from "./github-contributions"
-import { Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
+import { IconTile, Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
+
+const ICONS = { mac: LaptopIcon, iphone: SmartphoneIcon, web: GlobeIcon }
 
 export function About() {
   if (!PROFILE.intro && PROFILE.about.length === 0) return null
@@ -13,14 +17,17 @@ export function About() {
       </PanelHeader>
       <PanelContent className="space-y-4 py-6">
         {PROFILE.intro && <p className="text-base/relaxed text-pretty text-muted-foreground">{PROFILE.intro}</p>}
-        <ul className="list-disc space-y-2.5 pl-5 text-base/relaxed text-pretty text-muted-foreground marker:text-muted-foreground/50">
-          {PROFILE.about.map((item, i) => {
-            // "Mac: ..." shows the platform in the foreground colour.
-            const [label, rest] = item.includes(": ") ? item.split(/: (.*)/s) : ["", item]
+        <ul className="space-y-3 text-base/relaxed text-pretty text-muted-foreground">
+          {PROFILE.about.map((item) => {
+            const Icon = ICONS[item.platform]
             return (
-              <li key={i} className="pl-1">
-                {label && <span className="font-medium text-foreground">{label}: </span>}
-                {rest}
+              <li key={item.platform} className="flex items-start gap-3">
+                <IconTile className="-mt-px size-7 rounded-lg text-foreground/80">
+                  <Icon aria-hidden />
+                </IconTile>
+                <span>
+                  <span className="font-medium text-foreground">{item.label}:</span> {item.text}
+                </span>
               </li>
             )
           })}

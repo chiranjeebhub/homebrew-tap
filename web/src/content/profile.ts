@@ -19,14 +19,15 @@ export const PROFILE = {
   location: "", // e.g. "Bengaluru, India"
   email: "", // e.g. "hello@chiranjeeb.dev"
 
-  // The About section: an intro paragraph, then bullet points.
+  // The About section: an intro paragraph, then a line per platform.
   intro:
     "I'm an independent developer building apps for the Mac, iPhone and the web, mostly small tools I wanted for myself first.",
+  // One line per platform, each shown with its icon.
   about: [
-    "Mac: open-source utilities that install with one Homebrew command.",
-    "iPhone: apps on the App Store, with more in TestFlight.",
-    "Web: tools like TaskRooms and Gita Shuffle, with more on the way.",
-  ],
+    { platform: "mac", label: "Mac", text: "open-source utilities that install with one Homebrew command." },
+    { platform: "iphone", label: "iPhone", text: "apps on the App Store, with more in TestFlight." },
+    { platform: "web", label: "Web", text: "tools like TaskRooms and Gita Shuffle, with more on the way." },
+  ] as { platform: "mac" | "iphone" | "web"; label: string; text: string }[],
 
   socials: {
     github: "https://github.com/chiranjeebhub",
