@@ -37,7 +37,7 @@ export const PROFILE = {
     {
       platform: "web",
       label: "Web",
-      text: "[TaskRooms](https://taskrooms.com/) and [Gita Shuffle](https://gitashuffle.com/) are live, with DevStorage, DevMailer and JSFramework.dev on the way.",
+      text: "[TaskRooms](https://taskrooms.com/) is live, with [DevStorage](https://www.devstorage.io/), DevMailer and JSFramework.dev on the way.",
     },
   ] as { platform: "mac" | "iphone" | "web"; label: string; text: string }[],
   outro: "Open to collaborating on ambitious ideas. [Say hello](#contact).",

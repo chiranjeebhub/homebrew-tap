@@ -3,7 +3,7 @@ import { GlobeIcon, LaptopIcon, SmartphoneIcon } from "lucide-react"
 import { PROFILE } from "@/content/profile"
 
 import { ContributionGraph } from "./github-contributions"
-import { IconTile, Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
+import { Panel, PanelContent, PanelHeader, PanelTitle } from "./panel"
 
 const ICONS = { mac: LaptopIcon, iphone: SmartphoneIcon, web: GlobeIcon }
 
@@ -46,10 +46,8 @@ export function About() {
           {PROFILE.about.map((item) => {
             const Icon = ICONS[item.platform]
             return (
-              <li key={item.platform} className="flex items-start gap-3">
-                <IconTile className="-mt-px size-7 rounded-lg text-foreground/80">
-                  <Icon aria-hidden />
-                </IconTile>
+              <li key={item.platform} className="flex items-start gap-2.5">
+                <Icon className="mt-[0.3rem] size-4 shrink-0 text-foreground/80" aria-hidden />
                 <span>
                   <span className="font-medium text-foreground">{item.label}:</span> <Inline text={item.text} />
                 </span>
