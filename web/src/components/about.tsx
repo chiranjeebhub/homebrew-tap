@@ -7,7 +7,7 @@ export function About() {
   if (PROFILE.about.length === 0) return null
 
   return (
-    <Panel id="about">
+    <Panel id="about" screenLines="top">
       <PanelHeader>
         <PanelTitle id="about">About</PanelTitle>
       </PanelHeader>

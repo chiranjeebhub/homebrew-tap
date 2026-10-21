@@ -1,7 +1,23 @@
 import { cn } from "@/lib/utils"
 
-export function Panel({ className, ...props }: React.ComponentProps<"section">) {
-  return <section className={cn("screen-line-top screen-line-bottom border-x border-dashed border-line", className)} {...props} />
+/** A section of the column. `screenLines` sets which of its edge lines run the full width of the screen;
+ *  the others stay inside the column. */
+export function Panel({
+  className,
+  screenLines = "both",
+  ...props
+}: React.ComponentProps<"section"> & { screenLines?: "both" | "top" | "none" }) {
+  return (
+    <section
+      className={cn(
+        "border-x border-dashed border-line",
+        screenLines !== "none" && "screen-line-top",
+        screenLines === "both" && "screen-line-bottom",
+        className,
+      )}
+      {...props}
+    />
+  )
 }
 
 export function PanelHeader({ className, children, ...props }: React.ComponentProps<"header">) {
