@@ -16,6 +16,8 @@ const MACOS_NAMES: Record<string, string> = {
   tahoe: "macOS 26 Tahoe",
 }
 
+const isGitHubRepo = (url?: string) => !!url && /^https:\/\/github\.com\/[^/]+\/[^/]+/.test(url)
+
 function field(source: string, name: string) {
   const match = source.match(new RegExp(`^\\s*${name}\\s+"([^"]*)"`, "m"))
   return match?.[1]
@@ -28,6 +30,7 @@ export function parseCask(source: string): App | null {
 
   const version = field(source, "version")
   const url = field(source, "url")?.replaceAll("#{version}", version ?? "")
+  const homepage = field(source, "homepage")
   const macos = source.match(/depends_on\s+macos:\s+(?:">=\s*)?:?(\w+)/)?.[1]
 
   return {
@@ -41,7 +44,10 @@ export function parseCask(source: string): App | null {
     links: {
       cask: token,
       download: url,
-      source: field(source, "homepage"),
+      // A GitHub homepage is the source. Otherwise the homepage is a website, and the
+      // source is the repo the release is downloaded from, if it is on GitHub.
+      source: isGitHubRepo(homepage) ? homepage : url?.match(/^https:\/\/github\.com\/[^/]+\/[^/]+/)?.[0],
+      website: isGitHubRepo(homepage) ? undefined : homepage,
     },
   }
 }
@@ -61,7 +67,7 @@ export async function getApps(): Promise<App[]> {
   const casks = await Promise.all(
     parsed.map(async (app) => {
       const extra = CASK_OVERRIDES[app.id] ?? {}
-      const icon = extra.icon ?? (await findRepoIcon(app.links.source))
+      const icon = extra.icon ?? (await findRepoIcon(app.links.source)) ?? (await findSiteIcon(app.links.website))
       return { ...app, ...extra, icon, links: { ...app.links, ...extra.links } }
     }),
   )

@@ -9,7 +9,10 @@ import type { App } from "@/lib/types"
 // app's GitHub repo automatically; set `icon` here (a file in web/public/icons/)
 // only to use a different one.
 export const CASK_OVERRIDES: Record<string, Partial<App>> = {
-  // notchdeck: { icon: "/icons/notchdeck.png", order: 1 },
+  // Mac Apps order. Casks without an order follow, by name.
+  clipstack: { order: 1 },
+  notchdeck: { order: 2 },
+  "bucket-browser": { order: 3 },
 }
 
 // Apps that are not in the tap: iOS, Android and web apps. The Projects toggle
