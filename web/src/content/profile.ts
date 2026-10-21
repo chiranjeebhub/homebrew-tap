@@ -9,6 +9,13 @@ export const PROFILE = {
 
   role: "Independent App Developer",
   tagline: "Building apps for macOS, iOS and Android.",
+
+  // Rotating lines under the name.
+  flipSentences: [
+    "Independent App Developer",
+    "Building apps for macOS, iOS and Android.",
+    "Shipping native Mac utilities through Homebrew.",
+  ],
   location: "", // e.g. "Bengaluru, India"
   email: "", // e.g. "hello@chiranjeeb.dev"
 

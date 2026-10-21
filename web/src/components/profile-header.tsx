@@ -2,10 +2,13 @@ import { MapPinIcon } from "lucide-react"
 
 import { PROFILE } from "@/content/profile"
 
+import { FlipSentences } from "./flip-sentences"
+import { VerifiedIcon } from "./icons"
+
 export function ProfileHeader() {
   return (
     <section className="screen-line-bottom border-x border-dashed border-line">
-      <div className="p-4 sm:p-6">
+      <div className="p-4">
         <figure className="relative aspect-[3/1] overflow-hidden rounded-2xl border bg-surface sm:aspect-[4.2/1]">
           {PROFILE.cover ? (
             <img src={PROFILE.cover} alt="" className="size-full object-cover grayscale" />
@@ -17,15 +20,18 @@ export function ProfileHeader() {
         </figure>
       </div>
 
-      <div className="flex items-center gap-4 px-4 pb-5 sm:px-6 sm:pb-6">
+      <div className="flex items-center gap-4 px-4 pb-5">
         <img
           src={PROFILE.avatar}
           alt={`${PROFILE.name}'s avatar`}
           className="size-18 shrink-0 rounded-xl border border-foreground/40 object-cover select-none sm:size-20"
         />
         <div className="min-w-0 space-y-1">
-          <h1 className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
-          <p className="font-mono text-sm text-muted-foreground">{PROFILE.role}</p>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
+            <VerifiedIcon className="size-5 select-none" />
+          </div>
+          <FlipSentences className="h-6" sentences={PROFILE.flipSentences} />
           {PROFILE.location && (
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
               <MapPinIcon className="size-3.5" aria-hidden />

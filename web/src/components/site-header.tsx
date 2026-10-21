@@ -1,37 +1,26 @@
 import { PROFILE } from "@/content/profile"
 
 import { GitHubIcon } from "./icons"
+import { SiteNav } from "./site-nav"
 import { ThemeToggle } from "./theme-toggle"
-
-const NAV = [
-  { href: "#apps", label: "Apps" },
-  { href: "#homebrew", label: "Homebrew" },
-  { href: "#sponsor", label: "Sponsor" },
-]
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
-      <div className="screen-line-bottom mx-auto flex h-(--header-height) items-center gap-2 border-x border-dashed border-line px-4 md:max-w-3xl">
-        <a href="#" className="flex items-center gap-2 font-mono text-sm font-medium" aria-label="Home">
-          <img src={PROFILE.avatar} alt="" className="size-6 rounded-full ring-1 ring-border" />
-          <span className="max-sm:hidden">{PROFILE.username}</span>
+      <div className="screen-line-bottom mx-auto flex h-(--header-height) max-w-5xl items-center gap-4 border-x border-dashed border-line px-4">
+        <a href="#" className="flex min-w-0 items-baseline gap-2" aria-label="Home">
+          <span className="text-lg font-medium tracking-tight">{PROFILE.name}</span>
+          <span className="truncate font-mono text-xs text-muted-foreground">@{PROFILE.username}</span>
         </a>
 
-        <nav className="ml-auto flex items-center gap-4 text-sm text-muted-foreground" aria-label="Main">
-          {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="transition-colors hover:text-foreground">
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <SiteNav />
 
-        <div className="ml-2 flex items-center gap-1 border-l border-dashed border-line pl-2">
+        <div className="flex items-center gap-2 max-sm:ml-auto">
           <a
             href={PROFILE.socials.github}
             target="_blank"
             rel="noopener"
-            className="flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="flex size-9 items-center justify-center rounded-full border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             aria-label="GitHub"
           >
             <GitHubIcon className="size-4" />

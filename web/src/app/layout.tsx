@@ -3,6 +3,7 @@ import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 
 import { SiteFooter } from "@/components/site-footer"
+import { SectionIndex } from "@/components/section-index"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PROFILE } from "@/content/profile"
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteHeader />
           <main className="px-2 md:px-0">{children}</main>
           <SiteFooter />
+          <SectionIndex />
         </ThemeProvider>
       </body>
     </html>
