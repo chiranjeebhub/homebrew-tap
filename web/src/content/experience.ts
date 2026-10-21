@@ -4,6 +4,10 @@ import type { Company } from "@/lib/types"
 // no descriptions for Nvest, Rebrand Digital or Safex Technocom, so their highlights are written from
 // the titles and the profile summary and should be checked. The Experience section stays hidden
 // while this is empty.
+// Hidden for now (user asked, October 2026). Set to true to bring the section back in the page,
+// the header nav, the side index and the command menu.
+export const SHOW_EXPERIENCE = false
+
 export const EXPERIENCE: Company[] = [
   {
     name: "Nvest Campus (Starfish)",

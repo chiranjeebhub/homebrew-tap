@@ -1,9 +1,6 @@
-import { PROFILE } from "@/content/profile"
-
 import { getApps } from "@/lib/casks"
 
 import { CommandMenu } from "./command-menu"
-import { GitHubIcon } from "./icons"
 import { Monogram } from "./monogram"
 import { SiteNav } from "./site-nav"
 import { ThemeToggle } from "./theme-toggle"
@@ -24,15 +21,6 @@ export async function SiteHeader() {
           <CommandMenu
             apps={apps.map((a) => ({ id: a.id, name: a.name, icon: a.icon, platforms: a.platforms }))}
           />
-          <a
-            href={PROFILE.socials.github}
-            target="_blank"
-            rel="noopener"
-            className="flex size-9 items-center justify-center rounded-full border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            aria-label="GitHub"
-          >
-            <GitHubIcon className="size-4" />
-          </a>
           <ThemeToggle />
         </div>
       </div>

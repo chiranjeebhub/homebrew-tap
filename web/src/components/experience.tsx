@@ -1,6 +1,6 @@
 import { BriefcaseIcon, ChevronsDownUpIcon, ChevronsUpDownIcon, CodeXmlIcon, LightbulbIcon, PenToolIcon, SmartphoneIcon, UsersIcon } from "lucide-react"
 
-import { EXPERIENCE } from "@/content/experience"
+import { EXPERIENCE, SHOW_EXPERIENCE } from "@/content/experience"
 import type { Company, Role } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -31,7 +31,7 @@ function duration(start: string, end?: string) {
 }
 
 export function Experience() {
-  if (EXPERIENCE.length === 0) return null
+  if (!SHOW_EXPERIENCE || EXPERIENCE.length === 0) return null
 
   return (
     <Panel id="experience">
