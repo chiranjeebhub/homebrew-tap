@@ -1,15 +1,13 @@
 "use client"
 
+import { SECTIONS } from "@/lib/sections"
 import { cn } from "@/lib/utils"
 
 import { useActiveSection } from "./use-active-section"
 
-const NAV = [
-  { id: "", label: "Home" },
-  { id: "projects", label: "Projects" },
-  { id: "homebrew", label: "Homebrew" },
-  { id: "contact", label: "Contact" },
-]
+const IN_NAV = ["projects", "experience", "stack", "homebrew", "contact"]
+
+const NAV = [{ id: "", label: "Home" }, ...IN_NAV.flatMap((id) => SECTIONS.filter((s) => s.id === id))]
 
 const IDS = NAV.map((n) => n.id).filter(Boolean)
 

@@ -47,6 +47,12 @@ export function useActiveSection(ids: string[]) {
       requestAnimationFrame(update)
     }
 
+    // Hash changes made without a click, such as from the command menu or its G shortcuts.
+    function onHash() {
+      pinned = decodeURIComponent(window.location.hash.slice(1))
+      requestAnimationFrame(update)
+    }
+
     function unpin() {
       pinned = ""
     }
@@ -55,11 +61,13 @@ export function useActiveSection(ids: string[]) {
     window.addEventListener("scroll", update, { passive: true })
     window.addEventListener("resize", update)
     document.addEventListener("click", onClick)
+    window.addEventListener("hashchange", onHash)
     for (const type of ["wheel", "touchmove", "keydown"]) window.addEventListener(type, unpin, { passive: true })
     return () => {
       window.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
       document.removeEventListener("click", onClick)
+      window.removeEventListener("hashchange", onHash)
       for (const type of ["wheel", "touchmove", "keydown"]) window.removeEventListener(type, unpin)
     }
   }, [ids])

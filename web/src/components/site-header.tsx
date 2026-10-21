@@ -1,21 +1,29 @@
 import { PROFILE } from "@/content/profile"
 
+import { getApps } from "@/lib/casks"
+
+import { CommandMenu } from "./command-menu"
 import { GitHubIcon } from "./icons"
+import { Monogram } from "./monogram"
 import { SiteNav } from "./site-nav"
 import { ThemeToggle } from "./theme-toggle"
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const apps = await getApps()
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
       <div className="screen-line-bottom mx-auto flex h-(--header-height) max-w-3xl items-center gap-4 border-x border-dashed border-line px-4">
-        <a href="#" className="flex min-w-0 items-baseline gap-2" aria-label="Home">
-          <span className="text-lg font-medium tracking-tight">{PROFILE.name}</span>
-          <span className="truncate font-mono text-xs text-muted-foreground">@{PROFILE.username}</span>
+        <a href="#" className="text-foreground" aria-label="Home">
+          <Monogram />
         </a>
 
         <SiteNav />
 
         <div className="flex items-center gap-2 max-sm:ml-auto">
+          <CommandMenu
+            apps={apps.map((a) => ({ id: a.id, name: a.name, icon: a.icon, platforms: a.platforms }))}
+          />
           <a
             href={PROFILE.socials.github}
             target="_blank"

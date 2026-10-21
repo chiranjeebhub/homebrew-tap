@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronsUpDownIcon, DownloadIcon, GlobeIcon, LaptopIcon, RefreshCwIcon, SmartphoneIcon } from "lucide-react"
 
 import { PROFILE } from "@/content/profile"
@@ -24,6 +24,23 @@ const inTab = (app: App, tab: (typeof TABS)[number]) => app.platforms.some((p) =
 export function Projects({ apps }: { apps: App[] }) {
   const [active, setActive] = useState<TabId>(() => (TABS.find((t) => apps.some((a) => inTab(a, t))) ?? TABS[0]).id)
   const tab = TABS.find((t) => t.id === active)!
+
+  // The command menu asks to show a project: switch to its tab, then open and scroll to it.
+  useEffect(() => {
+    function onShow(e: Event) {
+      const app = apps.find((a) => a.id === (e as CustomEvent<string>).detail)
+      const target = app && TABS.find((t) => inTab(app, t))
+      if (!app || !target) return
+      setActive(target.id)
+      requestAnimationFrame(() => {
+        const item = document.getElementById(`project-${app.id}`)
+        item?.querySelector("details")?.setAttribute("open", "")
+        item?.scrollIntoView({ block: "start" })
+      })
+    }
+    window.addEventListener("show-project", onShow)
+    return () => window.removeEventListener("show-project", onShow)
+  }, [apps])
   const shown = apps.filter((a) => inTab(a, tab))
 
   return (
@@ -59,7 +76,7 @@ export function Projects({ apps }: { apps: App[] }) {
       {shown.length > 0 ? (
         <ul role="tabpanel" aria-label={tab.label}>
           {shown.map((app, i) => (
-            <li key={app.id} className={cn(i > 0 && "border-t border-line")}>
+            <li key={app.id} id={`project-${app.id}`} className={cn(i > 0 && "border-t border-line")}>
               <AppItem app={app} />
             </li>
           ))}

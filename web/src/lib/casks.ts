@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { cache } from "react"
 
 import { CASK_OVERRIDES, OTHER_APPS } from "@/content/apps"
 import { findAppStoreIcon, findRepoIcon, findSiteIcon } from "@/lib/app-icons"
@@ -52,7 +53,8 @@ export function parseCask(source: string): App | null {
   }
 }
 
-export async function getApps(): Promise<App[]> {
+/** All apps, once per build: the page and the header's command menu share the result. */
+export const getApps = cache(async function getApps(): Promise<App[]> {
   let files: string[] = []
   try {
     files = fs.readdirSync(CASKS_DIR).filter((f) => f.endsWith(".rb"))
@@ -84,4 +86,4 @@ export async function getApps(): Promise<App[]> {
   )
 
   return [...casks, ...others].sort((a, b) => (a.order ?? 100) - (b.order ?? 100) || a.name.localeCompare(b.name))
-}
+})

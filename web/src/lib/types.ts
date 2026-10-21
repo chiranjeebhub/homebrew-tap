@@ -22,3 +22,34 @@ export type App = {
     website?: string
   }
 }
+
+export type Role = {
+  title: string
+  /** Picks the icon beside the role. */
+  kind?: "engineering" | "design" | "mobile" | "lead" | "founder"
+  type?: "Full-time" | "Part-time" | "Contract" | "Freelance" | "Internship"
+  /** "YYYY-MM". Leave `end` out for a role you're still in. */
+  start: string
+  end?: string
+  highlights?: string[]
+  skills?: string[]
+}
+
+export type Company = {
+  name: string
+  /** A square image in web/public, or a URL. */
+  logo?: string
+  url?: string
+  location?: string
+  workplace?: "Remote" | "On-site" | "Hybrid"
+  /** Most recent first. */
+  roles: Role[]
+}
+
+export type StackItem = {
+  name: string
+  /** A simple-icons export name, such as "siSwift" (https://simpleicons.org). Leave out for no icon. */
+  icon?: string
+}
+
+export type StackGroup = { name: string; items: StackItem[] }

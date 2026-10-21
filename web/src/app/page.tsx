@@ -1,9 +1,11 @@
 import { About } from "@/components/about"
 import { Contact } from "@/components/contact"
+import { Experience } from "@/components/experience"
 import { Homebrew } from "@/components/homebrew"
 import { ProfileHeader } from "@/components/profile-header"
 import { Projects } from "@/components/projects"
 import { Sponsor } from "@/components/sponsor"
+import { Stack } from "@/components/stack"
 import { getApps } from "@/lib/casks"
 
 export default async function HomePage() {
@@ -15,6 +17,8 @@ export default async function HomePage() {
       <About />
       <Contact />
       <Projects apps={apps} />
+      <Experience />
+      <Stack />
       <Homebrew apps={apps} />
       <Sponsor />
     </div>
