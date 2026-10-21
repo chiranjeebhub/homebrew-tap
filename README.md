@@ -2,11 +2,13 @@
 
 Homebrew casks for:
 
+- [Bucket Browser](https://github.com/chiranjeebhub/Bucket_Browser), which browses Amazon S3, Cloudflare R2 and S3-compatible buckets like folders in Finder.
 - [NotchDeck](https://github.com/chiranjeebhub/NotchDeck), which turns the MacBook notch into a hub for media, files, calendar and dev servers.
 - [Sweep](https://github.com/chiranjeebhub/Sweep), a native cleaner for caches, logs, leftovers and large files.
 - [Shotwright](https://github.com/chiranjeebhub/Shotwright), a menu bar screenshot tool with scrolling capture, screen recording, OCR and annotation.
 
 ```sh
+brew install --cask chiranjeebhub/tap/bucket-browser
 brew install --cask chiranjeebhub/tap/notchdeck
 brew install --cask chiranjeebhub/tap/shotwright
 brew install --cask chiranjeebhub/tap/sweep
