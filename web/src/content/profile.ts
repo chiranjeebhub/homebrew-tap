@@ -31,7 +31,7 @@ export const PROFILE = {
 
   support: {
     githubSponsors: "https://github.com/sponsors/chiranjeebhub",
-    buyMeACoffee: "", // e.g. "https://buymeacoffee.com/yourhandle"
+    buyMeACoffee: "https://buymeacoffee.com/chiranjeeb",
   },
 
   // The Homebrew tap this repo publishes.
