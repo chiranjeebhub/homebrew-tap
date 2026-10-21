@@ -14,7 +14,7 @@ export function SectionIndex() {
   return (
     <nav
       aria-label="Index"
-      className="fixed top-1/3 left-[calc(50%+32rem+2.5rem)] z-40 hidden font-mono text-sm min-[1400px]:block"
+      className="fixed top-1/3 left-[calc(50%+24rem+2.5rem)] z-40 hidden font-mono text-sm min-[1180px]:block"
     >
       <p className="mb-4 text-xs tracking-[0.2em] text-muted-foreground uppercase">Index</p>
       <ul className="space-y-3">

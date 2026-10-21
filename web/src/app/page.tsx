@@ -11,7 +11,7 @@ export default function HomePage() {
   const apps = getApps()
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-3xl">
       <ProfileHeader />
       <About />
       <Contact />
