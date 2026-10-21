@@ -26,10 +26,10 @@ export function PanelTitle({
   children: React.ReactNode
 }) {
   return (
-    <h2 className={cn("font-serif text-[2.5rem]/tight font-normal text-balance", className)}>
+    <h2 className={cn("text-3xl font-medium tracking-tight text-balance", className)}>
       {id ? <a href={`#${id}`}>{children}</a> : children}
       {count !== undefined && (
-        <sup className="top-[-1.2em] ml-1.5 font-mono text-sm font-normal text-muted-foreground">({count})</sup>
+        <sup className="top-[-0.75em] ml-1 text-sm font-medium tracking-normal text-muted-foreground">({count})</sup>
       )}
     </h2>
   )

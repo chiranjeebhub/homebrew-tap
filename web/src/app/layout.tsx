@@ -7,7 +7,6 @@ import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PROFILE } from "@/content/profile"
 
-import "@fontsource/instrument-serif/400.css"
 import "./globals.css"
 
 const description = PROFILE.flipSentences[0]
