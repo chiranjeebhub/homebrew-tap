@@ -19,11 +19,9 @@ export const PROFILE = {
   location: "", // e.g. "Bengaluru, India"
   email: "", // e.g. "hello@chiranjeeb.dev"
 
-  // Bullet points for the About section.
-  about: [
-    "I build native apps for the Mac, iPhone and Android, mostly small tools that I wanted for myself first.",
-    "My Mac apps are open source and install with one Homebrew command. Mobile apps are on the App Store and Google Play.",
-  ],
+  // The About section: one paragraph.
+  about:
+    "I'm an independent developer building apps for the Mac, iPhone and the web, mostly small tools I wanted for myself first. My Mac utilities are open source and install with one Homebrew command, my iPhone apps are on the App Store with more in TestFlight, and web tools like TaskRooms and Gita Shuffle run in any browser.",
 
   socials: {
     github: "https://github.com/chiranjeebhub",
