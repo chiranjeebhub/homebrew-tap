@@ -11,7 +11,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <ProfileHeader />
+      <ProfileHeader apps={apps} />
       <About />
       <Contact />
       <Projects apps={apps} />
