@@ -12,7 +12,7 @@ const NAV = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
-      <div className="screen-line-bottom mx-auto flex h-(--header-height) items-center gap-2 border-x border-line px-4 md:max-w-3xl">
+      <div className="screen-line-bottom mx-auto flex h-(--header-height) items-center gap-2 border-x border-dashed border-line px-4 md:max-w-3xl">
         <a href="#" className="flex items-center gap-2 font-mono text-sm font-medium" aria-label="Home">
           <img src={PROFILE.avatar} alt="" className="size-6 rounded-full ring-1 ring-border" />
           <span className="max-sm:hidden">{PROFILE.username}</span>

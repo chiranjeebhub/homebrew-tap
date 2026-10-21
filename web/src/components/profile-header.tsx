@@ -5,7 +5,7 @@ import { VerifiedIcon } from "./icons"
 
 export function ProfileHeader() {
   return (
-    <div className="screen-line-bottom grid grid-cols-[auto_1fr] grid-rows-[1fr_auto] border-x border-line">
+    <div className="screen-line-bottom grid grid-cols-[auto_1fr] grid-rows-[1fr_auto] border-x border-dashed border-line">
       <figure className="dot-grid relative col-span-2 flex aspect-[2.6/1] items-center justify-center p-4 sm:col-span-1 sm:col-start-2 sm:aspect-auto sm:min-h-40">
         <DevicesMark className="h-20 w-auto text-foreground/80 sm:h-24" />
         <figcaption className="pointer-events-none absolute right-2 bottom-2 text-sm/none tracking-wide text-muted-foreground/60 tabular-nums select-none sm:right-4 sm:bottom-4">

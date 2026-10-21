@@ -21,6 +21,7 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
 }
 
 :root {
@@ -149,8 +150,24 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
+/* Record player in About. */
+.vinyl {
+  background:
+    radial-gradient(circle, transparent 0 30%, rgb(255 255 255 / 0.06) 30.5% 31%, transparent 31.5%),
+    repeating-radial-gradient(circle, #141416 0 2px, #1c1c1f 2px 3px),
+    #141416;
+  animation: vinyl-spin 4s linear infinite;
+}
+
+@keyframes vinyl-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-flip-in {
+  .animate-flip-in,
+  .vinyl {
     animation: none;
   }
 }

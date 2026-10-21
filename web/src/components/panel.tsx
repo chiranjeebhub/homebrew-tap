@@ -1,11 +1,17 @@
 import { cn } from "@/lib/utils"
 
 export function Panel({ className, ...props }: React.ComponentProps<"section">) {
-  return <section className={cn("screen-line-top screen-line-bottom border-x border-line", className)} {...props} />
+  return <section className={cn("screen-line-top screen-line-bottom border-x border-dashed border-line", className)} {...props} />
 }
 
-export function PanelHeader({ className, ...props }: React.ComponentProps<"header">) {
-  return <header className={cn("screen-line-bottom px-4", className)} {...props} />
+export function PanelHeader({ className, children, ...props }: React.ComponentProps<"header">) {
+  return (
+    <header className={cn("screen-line-bottom relative border-y border-line bg-background px-4 py-3", className)} {...props}>
+      {/* Stripes in the gutters on either side of the title row. The header's own background hides them in the column. */}
+      <div className="diagonal-stripes absolute inset-y-0 left-[-100vw] -z-1 w-[200vw]" aria-hidden />
+      {children}
+    </header>
+  )
 }
 
 export function PanelTitle({
@@ -20,10 +26,10 @@ export function PanelTitle({
   children: React.ReactNode
 }) {
   return (
-    <h2 className={cn("text-3xl font-medium tracking-tight text-balance", className)}>
+    <h2 className={cn("font-serif text-[2.5rem]/tight font-normal text-balance", className)}>
       {id ? <a href={`#${id}`}>{children}</a> : children}
       {count !== undefined && (
-        <sup className="top-[-0.75em] ml-1 text-sm font-medium tracking-normal text-muted-foreground">({count})</sup>
+        <sup className="top-[-1.2em] ml-1.5 font-mono text-sm font-normal text-muted-foreground">({count})</sup>
       )}
     </h2>
   )
@@ -34,7 +40,7 @@ export function PanelContent({ className, ...props }: React.ComponentProps<"div"
 }
 
 export function Separator({ className }: { className?: string }) {
-  return <div className={cn("stripe-divider w-full border-x border-line", className)} aria-hidden />
+  return <div className={cn("stripe-divider w-full border-x border-dashed border-line", className)} aria-hidden />
 }
 
 /** Small framed square for a leading icon. */

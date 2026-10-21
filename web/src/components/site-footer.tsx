@@ -13,7 +13,7 @@ export function SiteFooter() {
   return (
     <footer className="mx-auto md:max-w-3xl">
       <Separator />
-      <div className="screen-line-top screen-line-bottom border-x border-line p-4">
+      <div className="screen-line-top screen-line-bottom border-x border-dashed border-line p-4">
         <dl className="grid gap-x-4 gap-y-1.5 font-mono text-sm sm:grid-cols-2">
           {rows.map((r) => (
             <div key={r.label} className="flex gap-2">
@@ -27,7 +27,7 @@ export function SiteFooter() {
           ))}
         </dl>
       </div>
-      <div className="stripe-divider h-16 w-full border-x border-line" aria-hidden />
+      <div className="stripe-divider h-16 w-full border-x border-dashed border-line" aria-hidden />
     </footer>
   )
 }
