@@ -21,13 +21,26 @@ export const PROFILE = {
 
   // The About section: an intro paragraph, then a line per platform.
   intro:
-    "I'm an independent developer building apps for the Mac, iPhone and the web, mostly small tools I wanted for myself first.",
-  // One line per platform, each shown with its icon.
+    "I'm Chiranjeeb, an independent developer building native apps for the Mac and iPhone, and products for the web. Most start as small tools I wanted for myself, then get polished until they're worth sharing.",
+  // One line per platform, each shown with its icon. [label](url) becomes a link.
   about: [
-    { platform: "mac", label: "Mac", text: "open-source utilities that install with one Homebrew command." },
-    { platform: "iphone", label: "iPhone", text: "apps on the App Store, with more in TestFlight." },
-    { platform: "web", label: "Web", text: "tools like TaskRooms and Gita Shuffle, with more on the way." },
+    {
+      platform: "mac",
+      label: "Mac",
+      text: "open-source utilities like [Clipstack](https://github.com/chiranjeebhub/ClipStack), [NotchDeck](https://github.com/chiranjeebhub/NotchDeck) and [Bucket Browser](https://chiranjeebhub.github.io/bucket-browser-site/), each one Homebrew command away.",
+    },
+    {
+      platform: "iphone",
+      label: "iPhone",
+      text: "[Garage HQ](https://apps.apple.com/in/app/garage-hq/id6754905027), [Garage Connect](https://apps.apple.com/in/app/garage-connect/id6758221987) and [GarageIRL](https://apps.apple.com/in/app/garageirl/id6799842262) on the App Store, with more in TestFlight.",
+    },
+    {
+      platform: "web",
+      label: "Web",
+      text: "[TaskRooms](https://taskrooms.com/) and [Gita Shuffle](https://gitashuffle.com/) are live, with DevStorage, DevMailer and JSFramework.dev on the way.",
+    },
   ] as { platform: "mac" | "iphone" | "web"; label: string; text: string }[],
+  outro: "Open to collaborating on ambitious ideas. [Say hello](#contact).",
 
   socials: {
     github: "https://github.com/chiranjeebhub",
