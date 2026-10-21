@@ -39,10 +39,6 @@ export function PanelContent({ className, ...props }: React.ComponentProps<"div"
   return <div className={cn("p-4", className)} {...props} />
 }
 
-export function Separator({ className }: { className?: string }) {
-  return <div className={cn("stripe-divider w-full border-x border-dashed border-line", className)} aria-hidden />
-}
-
 /** Small framed square for a leading icon. */
 export function IconTile({ className, ...props }: React.ComponentProps<"div">) {
   return (

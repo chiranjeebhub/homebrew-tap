@@ -124,24 +124,6 @@
   @apply underline-offset-3 hover:underline;
 }
 
-/* The flip sentence under the name. */
-@keyframes flip-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-.animate-flip-in {
-  animation: flip-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
 details > summary {
   list-style: none;
 }
@@ -149,24 +131,3 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
-/* Record player in About. */
-.vinyl {
-  background:
-    radial-gradient(circle, transparent 0 30%, rgb(255 255 255 / 0.06) 30.5% 31%, transparent 31.5%),
-    repeating-radial-gradient(circle, #141416 0 2px, #1c1c1f 2px 3px),
-    #141416;
-  animation: vinyl-spin 4s linear infinite;
-}
-
-@keyframes vinyl-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-flip-in,
-  .vinyl {
-    animation: none;
-  }
-}

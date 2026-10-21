@@ -4,9 +4,9 @@ import { PROFILE } from "@/content/profile"
 import { cn } from "@/lib/utils"
 
 import { GitHubIcon, LinkedInIcon, XIcon } from "./icons"
-import { Panel } from "./panel"
+import { Panel, PanelHeader, PanelTitle } from "./panel"
 
-export function SocialLinks() {
+export function Contact() {
   const links = [
     { title: "GitHub", href: PROFILE.socials.github, icon: <GitHubIcon /> },
     { title: "Twitter", href: PROFILE.socials.x, icon: <XIcon /> },
@@ -16,8 +16,10 @@ export function SocialLinks() {
   if (links.length === 0) return null
 
   return (
-    <Panel>
-      <h2 className="sr-only">Social links</h2>
+    <Panel id="contact">
+      <PanelHeader>
+        <PanelTitle id="contact">Contact</PanelTitle>
+      </PanelHeader>
       <ul className={cn("grid grid-cols-1", links.length > 1 && "sm:grid-cols-3")}>
         {links.map((item, i) => (
           <li key={item.title} className={cn(i > 0 && "border-t border-line sm:border-t-0 sm:border-l")}>

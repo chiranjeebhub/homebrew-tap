@@ -9,7 +9,7 @@ import { PROFILE } from "@/content/profile"
 
 import "./globals.css"
 
-const description = PROFILE.flipSentences[0]
+const description = PROFILE.tagline
 
 export const metadata: Metadata = {
   title: `${PROFILE.name} · Apps for macOS, iOS and Android`,

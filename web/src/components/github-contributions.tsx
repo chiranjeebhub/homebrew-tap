@@ -1,7 +1,7 @@
 import { PROFILE } from "@/content/profile"
 import { cn } from "@/lib/utils"
 
-import { Panel } from "./panel"
+import { Panel, PanelHeader, PanelTitle } from "./panel"
 
 type Day = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }
 
@@ -39,8 +39,10 @@ export async function GitHubContributions() {
   for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7))
 
   return (
-    <Panel>
-      <h2 className="sr-only">GitHub contributions</h2>
+    <Panel id="github">
+      <PanelHeader>
+        <PanelTitle id="github">GitHub</PanelTitle>
+      </PanelHeader>
       <figure className="space-y-3 p-4">
         <div className="overflow-x-auto [scrollbar-width:none]">
           <div className="flex w-max gap-[3px]">
