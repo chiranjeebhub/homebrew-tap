@@ -2,52 +2,65 @@
 
 import { useEffect, useState } from "react"
 
-/** The id of the section nearest the top of the viewport, or "" above the first one. */
+// Just below where a link lands a section (header height plus the 2rem scroll padding).
+const LINE = 120
+
+/** The id of the section being read, or "" above the first one. */
 export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState("")
 
   useEffect(() => {
+    // A section picked from a link stays active while it is on screen, until the reader scrolls
+    // by hand. Short sections, and the last ones on the page, never reach the line on their own.
+    let pinned = decodeURIComponent(window.location.hash.slice(1))
+
+    const rect = (id: string) => document.getElementById(id)?.getBoundingClientRect()
+    const onScreen = (r?: DOMRect) => !!r && r.top < window.innerHeight && r.bottom > 0
+
     function update() {
-      // Just below where a nav click lands a section (header height plus the 2rem scroll padding),
-      // so a short section such as Contact still wins when it is the one clicked.
-      const line = 120
-      // Pick by position on the page, not by the order of `ids`, which may differ from it.
+      if (ids.includes(pinned) && onScreen(rect(pinned))) return setActive(pinned)
+
+      // Otherwise the lowest section whose top has passed the line, by position on the page.
       let current = ""
       let best = -Infinity
       for (const id of ids) {
-        const top = document.getElementById(id)?.getBoundingClientRect().top
-        if (top === undefined) continue
-        if (top <= line && top > best) {
+        const top = rect(id)?.top
+        if (top !== undefined && top <= LINE && top > best) {
           best = top
           current = id
         }
       }
 
-      // At the bottom of the page the last sections can't scroll up to the line. Use the one in the
-      // URL hash if it is on screen (the one just clicked), otherwise the last one on screen.
+      // At the very bottom, the last section on screen.
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-        const visible = ids.filter((id) => {
-          const r = document.getElementById(id)?.getBoundingClientRect()
-          return r && r.top < window.innerHeight && r.bottom > 0
-        })
-        const hash = decodeURIComponent(window.location.hash.slice(1))
-        const pick =
-          visible.includes(hash) && document.getElementById(hash)!.getBoundingClientRect().top > line
-            ? hash
-            : visible.sort((a, b) => document.getElementById(b)!.offsetTop - document.getElementById(a)!.offsetTop)[0]
-        if (pick && document.getElementById(pick)!.getBoundingClientRect().top > best) current = pick
+        const last = ids.filter((id) => onScreen(rect(id))).sort((a, b) => rect(b)!.top - rect(a)!.top)[0]
+        if (last) current = last
       }
 
       setActive(current)
     }
+
+    function onClick(e: MouseEvent) {
+      const link = (e.target as Element).closest?.('a[href^="#"]')
+      if (!link) return
+      pinned = decodeURIComponent(link.getAttribute("href")!.slice(1))
+      requestAnimationFrame(update)
+    }
+
+    function unpin() {
+      pinned = ""
+    }
+
     update()
     window.addEventListener("scroll", update, { passive: true })
     window.addEventListener("resize", update)
-    window.addEventListener("hashchange", update)
+    document.addEventListener("click", onClick)
+    for (const type of ["wheel", "touchmove", "keydown"]) window.addEventListener(type, unpin, { passive: true })
     return () => {
-      window.removeEventListener("hashchange", update)
       window.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
+      document.removeEventListener("click", onClick)
+      for (const type of ["wheel", "touchmove", "keydown"]) window.removeEventListener(type, unpin)
     }
   }, [ids])
 

@@ -148,6 +148,23 @@
   }
 }
 
+/* Brief highlight on a section reached from a link, for ones without a title row. */
+@keyframes target-flash {
+  from {
+    background-color: var(--accent);
+  }
+}
+
+.target-flash:target {
+  animation: target-flash 1.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .target-flash:target {
+    animation: none;
+  }
+}
+
 details > summary {
   list-style: none;
 }

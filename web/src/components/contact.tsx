@@ -16,7 +16,13 @@ export function Contact() {
   if (links.length === 0) return null
 
   return (
-    <Panel id="contact" aria-label="Contact" screenLines="none">
+    <Panel
+      id="contact"
+      aria-label="Contact"
+      screenLines="none"
+      // Links land the tiles in the middle of the screen: there's no title row to land on.
+      className="target-flash sm:scroll-mt-[calc(50vh-var(--header-height)-6.25rem)]"
+    >
       <ul className={cn("grid grid-cols-1 border-t border-line", links.length > 1 && "sm:grid-cols-3")}>
         {links.map((item, i) => (
           <li key={item.title} className={cn(i > 0 && "border-t border-line sm:border-t-0 sm:border-l")}>
