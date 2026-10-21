@@ -4,7 +4,7 @@ import { PROFILE } from "@/content/profile"
 import { cn } from "@/lib/utils"
 
 import { GitHubIcon, LinkedInIcon, XIcon } from "./icons"
-import { Panel, PanelHeader, PanelTitle } from "./panel"
+import { Panel } from "./panel"
 
 export function Contact() {
   const links = [
@@ -16,10 +16,7 @@ export function Contact() {
   if (links.length === 0) return null
 
   return (
-    <Panel id="contact">
-      <PanelHeader>
-        <PanelTitle id="contact">Contact</PanelTitle>
-      </PanelHeader>
+    <Panel id="contact" aria-label="Contact">
       <ul className={cn("grid grid-cols-1", links.length > 1 && "sm:grid-cols-3")}>
         {links.map((item, i) => (
           <li key={item.title} className={cn(i > 0 && "border-t border-line sm:border-t-0 sm:border-l")}>
