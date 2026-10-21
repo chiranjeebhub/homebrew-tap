@@ -1,6 +1,7 @@
 import type { Company } from "@/lib/types"
 
-// Work history, most recent first, from the LinkedIn profile export (October 2026).
+// Work history, most recent first, from the LinkedIn profile export (October 2026). Highlights for
+// Nvest, EXE Group, Rebrand Digital and Safex Technocom are drafts written from the titles alone.
 // The Experience section stays hidden while this is empty.
 export const EXPERIENCE: Company[] = [
   {
@@ -11,6 +12,11 @@ export const EXPERIENCE: Company[] = [
         title: "Senior Software Developer",
         kind: "engineering",
         start: "2019-07",
+        highlights: [
+          "Build and maintain web applications with React and TypeScript.",
+          "Work across the front end and its GraphQL APIs.",
+          "Care about UI and UX detail in everything that ships.",
+        ],
         skills: ["React", "TypeScript", "GraphQL"],
       },
     ],
@@ -18,11 +24,27 @@ export const EXPERIENCE: Company[] = [
   {
     name: "EXE Group",
     location: "Odisha, India",
-    roles: [{ title: "Founder & CEO", kind: "founder", start: "2017-03", end: "2019-07" }],
+    roles: [
+      {
+        title: "Founder & CEO",
+        kind: "founder",
+        start: "2017-03",
+        end: "2019-07",
+        highlights: ["Founded and ran the company.", "Led its strategy, product direction and team."],
+      },
+    ],
   },
   {
     name: "Rebrand Digital",
-    roles: [{ title: "Core Team Member", kind: "lead", start: "2017-02", end: "2019-06" }],
+    roles: [
+      {
+        title: "Core Team Member",
+        kind: "lead",
+        start: "2017-02",
+        end: "2019-06",
+        highlights: ["Part of the core team running the agency's digital work."],
+      },
+    ],
   },
   {
     name: "FNY Digital",
@@ -92,6 +114,14 @@ export const EXPERIENCE: Company[] = [
   {
     name: "Safex Technocom",
     location: "Bhubaneswar, India",
-    roles: [{ title: "Web Developer, Application Developer", kind: "engineering", start: "2012-01", end: "2012-11" }],
+    roles: [
+      {
+        title: "Web Developer, Application Developer",
+        kind: "engineering",
+        start: "2012-01",
+        end: "2012-11",
+        highlights: ["Built websites and applications in my first role after graduating."],
+      },
+    ],
   },
 ]
