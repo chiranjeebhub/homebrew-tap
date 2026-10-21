@@ -6,7 +6,7 @@ import type { Company } from "@/lib/types"
 // while this is empty.
 export const EXPERIENCE: Company[] = [
   {
-    name: "Nvest",
+    name: "Nvest Campus (Starfish)",
     location: "Bengaluru, India",
     roles: [
       {
