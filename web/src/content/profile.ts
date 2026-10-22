@@ -5,8 +5,9 @@ export const PROFILE = {
   username: "chiranjeebhub",
   avatar: "https://github.com/chiranjeebhub.png?size=320",
   avatarLight: "/avatar-sketch.png", // optional pencil-sketch version shown in light mode; empty uses `avatar` in both themes
+  ogImage: "/og.png", // 1200×630 link-preview card in web/public
   cover: "", // optional banner image in web/public, e.g. "/cover.jpg"; empty shows the default pattern
-  siteUrl: "", // e.g. "https://chiranjeeb.dev", used for metadata once the domain is live
+  siteUrl: "https://chiranjeeb.dev", // makes share-image and page links absolute in the metadata
 
   role: "Independent App Developer",
   tagline: "Building apps for macOS, iOS and Android.",
