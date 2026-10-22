@@ -2,6 +2,7 @@ import { MapPinIcon } from "lucide-react"
 
 import { PROFILE } from "@/content/profile"
 import type { App } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 import { CoverBanner } from "./cover-banner"
 import { FlipSentences } from "./flip-sentences"
@@ -21,10 +22,20 @@ export function ProfileHeader({ apps }: { apps: App[] }) {
       </div>
 
       <div className="flex items-center gap-4 px-4 pb-5">
+        {PROFILE.avatarLight && (
+          <img
+            src={PROFILE.avatarLight}
+            alt={`${PROFILE.name}'s avatar`}
+            className="size-18 shrink-0 rounded-xl border border-foreground/40 bg-white object-cover select-none sm:size-20 dark:hidden"
+          />
+        )}
         <img
           src={PROFILE.avatar}
           alt={`${PROFILE.name}'s avatar`}
-          className="size-18 shrink-0 rounded-xl border border-foreground/40 object-cover select-none sm:size-20"
+          className={cn(
+            "size-18 shrink-0 rounded-xl border border-foreground/40 object-cover select-none sm:size-20",
+            PROFILE.avatarLight && "not-dark:hidden",
+          )}
         />
         <div className="min-w-0 space-y-1">
           <div className="flex items-center gap-2">

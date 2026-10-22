@@ -4,6 +4,7 @@ export const PROFILE = {
   name: "Chiranjeeb",
   username: "chiranjeebhub",
   avatar: "https://github.com/chiranjeebhub.png?size=320",
+  avatarLight: "/avatar-sketch.png", // optional pencil-sketch version shown in light mode; empty uses `avatar` in both themes
   cover: "", // optional banner image in web/public, e.g. "/cover.jpg"; empty shows the default pattern
   siteUrl: "", // e.g. "https://chiranjeeb.dev", used for metadata once the domain is live
 
