@@ -1,6 +1,6 @@
 cask "shotwright" do
-  version "0.1.0"
-  sha256 "e8dc60db91ac494c5283bf4a1dd3fbff14140ac9a3d1b5eb15f64a9913c005a1"
+  version "0.1.1"
+  sha256 "01cb96bcd086799a320073a884f8c0d14dc5482aa8dde1881590b14dccd2b371"
 
   url "https://github.com/chiranjeebhub/Shotwright/releases/download/v#{version}/Shotwright-#{version}.dmg"
   name "Shotwright"
