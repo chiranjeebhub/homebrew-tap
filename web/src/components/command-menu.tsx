@@ -11,6 +11,7 @@ import {
   HouseIcon,
   LayersIcon,
   LaptopIcon,
+  MailIcon,
   MessageCircleIcon,
   MonitorIcon,
   MoonIcon,
@@ -45,6 +46,7 @@ const SECTION_META: Record<string, { icon: React.ElementType; key: string }> = {
 const MENU = [{ id: "", label: "Home" }, ...SECTIONS].map((s) => ({ ...s, ...SECTION_META[s.id] }))
 
 const LINKS = [
+  { label: "Email", href: PROFILE.email ? `mailto:${PROFILE.email}` : "", icon: MailIcon },
   { label: "GitHub", href: PROFILE.socials.github, icon: GitHubIcon },
   { label: "X (Twitter)", href: PROFILE.socials.x, icon: XIcon },
   { label: "LinkedIn", href: PROFILE.socials.linkedin, icon: LinkedInIcon },
@@ -185,7 +187,7 @@ export function CommandMenu({ apps }: { apps: MenuApp[] }) {
 
           <Group heading="Links">
             {LINKS.map((l) => (
-              <Item key={l.label} value={`link:${l.label}`} onSelect={() => run(() => window.open(l.href, "_blank", "noopener"))}>
+              <Item key={l.label} value={`link:${l.label}`} onSelect={() => run(() => (l.href.startsWith("mailto:") ? (location.href = l.href) : window.open(l.href, "_blank", "noopener")))}>
                 <l.icon />
                 {l.label}
               </Item>

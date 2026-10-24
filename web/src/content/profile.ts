@@ -1,7 +1,7 @@
 // Everything personal on the site lives here. Leave a field empty ("") to hide it.
 
 export const PROFILE = {
-  name: "Chiranjeeb",
+  name: "Chiranjeeb Jena",
   username: "chiranjeebhub",
   avatar: "https://github.com/chiranjeebhub.png?size=320",
   avatarLight: "/avatar-sketch.png", // optional pencil-sketch version shown in light mode; empty uses `avatar` in both themes
@@ -19,11 +19,11 @@ export const PROFILE = {
     "Shipping native Mac utilities through Homebrew.",
   ],
   location: "", // e.g. "Bengaluru, India"
-  email: "", // e.g. "hello@chiranjeeb.dev"
+  email: "hello@chiranjeeb.dev",
 
   // The About section: an intro paragraph, then a line per platform.
   intro:
-    "I'm Chiranjeeb, an independent developer building native apps for the Mac and iPhone, and products for the web. Most start as small tools I wanted for myself, then get polished until they're worth sharing.",
+    "I'm Chiranjeeb Jena, an independent developer building native apps for the Mac and iPhone, and products for the web. Most start as small tools I wanted for myself, then get polished until they're worth sharing.",
   // One line per platform, each shown with its icon. [label](url) becomes a link.
   about: [
     {
