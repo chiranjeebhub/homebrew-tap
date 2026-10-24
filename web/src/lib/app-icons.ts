@@ -7,6 +7,7 @@ const TIMEOUT = 8000
 const ICON_PATHS = [
   "docs/images/icon.png",
   "docs/images/logo.png",
+  "docs/icon.png",
   "{repo}/Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
   "{repo}/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
   "Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png",
