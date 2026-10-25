@@ -29,7 +29,7 @@ export const PROFILE = {
     {
       platform: "mac",
       label: "Mac",
-      text: "open-source utilities like [Clipstack](https://github.com/chiranjeebhub/ClipStack), [NotchDeck](https://github.com/chiranjeebhub/NotchDeck) and [Bucket Browser](https://chiranjeebhub.github.io/bucket-browser-site/), each one Homebrew command away.",
+      text: "open-source utilities: [Clipstack](https://github.com/chiranjeebhub/ClipStack), [NotchDeck](https://github.com/chiranjeebhub/NotchDeck), [Bucket Browser](https://chiranjeebhub.github.io/bucket-browser-site/), [Hushtype](https://github.com/chiranjeebhub/hushtype), [Shotwright](https://github.com/chiranjeebhub/Shotwright) and [Sweep](https://github.com/chiranjeebhub/Sweep), each one Homebrew command away.",
     },
     {
       platform: "iphone",
