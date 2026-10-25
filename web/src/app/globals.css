@@ -149,22 +149,28 @@
 }
 
 /* Cover banner: icon rows drifting sideways, and a soft light sweeping across them. */
+/* Both animate only transform, on their own layers, so the browser never repaints mid-animation. */
 @keyframes cover-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .cover-marquee {
   animation: cover-marquee 60s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 @keyframes cover-sweep {
   from {
-    background-position: -60% 0;
+    transform: translate3d(-100%, 0, 0);
   }
   to {
-    background-position: 160% 0;
+    transform: translate3d(200%, 0, 0);
   }
 }
 
@@ -175,9 +181,8 @@
     color-mix(in oklab, var(--foreground) 7%, transparent) 50%,
     transparent 65%
   );
-  background-size: 60% 100%;
-  background-repeat: no-repeat;
   animation: cover-sweep 7s ease-in-out infinite;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

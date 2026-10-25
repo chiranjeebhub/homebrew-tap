@@ -37,7 +37,7 @@ export function BrewTerminal({ tap, casks }: { tap: string; casks: Cask[] }) {
   }, [typed, done])
 
   return (
-    <div className="w-full max-w-[19rem] overflow-hidden rounded-xl border bg-background/85 font-mono text-[0.6875rem] shadow-xl backdrop-blur-sm sm:max-w-md sm:text-[0.8125rem]">
+    <div className="w-full max-w-[19rem] overflow-hidden rounded-xl border bg-background/90 font-mono text-[0.6875rem] shadow-xl sm:max-w-md sm:text-[0.8125rem]">
       <div className="flex items-center gap-1.5 border-b px-3 py-2 max-sm:hidden">
         {[0, 1, 2].map((i) => (
           <span key={i} className="size-2 rounded-full bg-muted-foreground/30" />
