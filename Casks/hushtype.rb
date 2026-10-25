@@ -1,6 +1,6 @@
 cask "hushtype" do
-  version "0.3.3"
-  sha256 "61420f87a7a66ef7438b4818cc6712aafa74d22439df06461a3bb32a1c140d9c"
+  version "0.3.4"
+  sha256 "7d855b1a641b582b386650805187885d5a60042ebec1f7e1689e131869e1156c"
 
   url "https://github.com/chiranjeebhub/hushtype/releases/download/v#{version}/Hushtype-#{version}.dmg"
   name "Hushtype"
