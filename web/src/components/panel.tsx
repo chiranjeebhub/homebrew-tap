@@ -1,4 +1,7 @@
+import { SECTIONS } from "@/lib/sections"
 import { cn } from "@/lib/utils"
+
+import { ScrambleText } from "./scramble-text"
 
 /** A section of the column. `screenLines` sets which of its edge lines run the full width of the screen;
  *  the others stay inside the column. */
@@ -41,9 +44,17 @@ export function PanelTitle({
   count?: number
   children: React.ReactNode
 }) {
+  // Sections are numbered in page order, like the rows in Stack.
+  const n = SECTIONS.findIndex((s) => s.id === id)
+  const body = typeof children === "string" ? <ScrambleText text={children} /> : children
   return (
-    <h2 className={cn("text-3xl font-medium tracking-tight text-balance", className)}>
-      {id ? <a href={`#${id}`}>{children}</a> : children}
+    <h2 data-inspect="h2" className={cn("flex items-baseline text-3xl font-medium tracking-tight text-balance", className)}>
+      {n >= 0 && (
+        <span className="mr-2.5 font-mono text-sm font-normal tracking-normal text-muted-foreground select-none" aria-hidden>
+          [{String(n + 1).padStart(2, "0")}]
+        </span>
+      )}
+      {id ? <a href={`#${id}`}>{body}</a> : body}
       {count !== undefined && (
         <sup className="top-[-0.75em] ml-1 text-sm font-medium tracking-normal text-muted-foreground">({count})</sup>
       )}

@@ -13,11 +13,11 @@ export function ProfileHeader({ apps }: { apps: App[] }) {
     <section className="screen-line-bottom border-x border-dashed border-line">
       <div className="p-4">
         {PROFILE.cover ? (
-          <figure className="aspect-[3/1] overflow-hidden rounded-2xl border bg-surface sm:aspect-[4.2/1]">
+          <figure data-inspect="cover" className="aspect-[3/1] overflow-hidden rounded-2xl border bg-surface sm:aspect-[4.2/1]">
             <img src={PROFILE.cover} alt="" className="size-full object-cover grayscale" />
           </figure>
         ) : (
-          <CoverBanner apps={apps} />
+          <div data-inspect="cover"><CoverBanner apps={apps} /></div>
         )}
       </div>
 
@@ -26,12 +26,14 @@ export function ProfileHeader({ apps }: { apps: App[] }) {
           <img
             src={PROFILE.avatarLight}
             alt={`${PROFILE.name}'s avatar`}
+            data-inspect="avatar"
             className="size-18 shrink-0 rounded-xl border border-foreground/40 bg-white object-cover select-none sm:size-20 dark:hidden"
           />
         )}
         <img
           src={PROFILE.avatar}
           alt={`${PROFILE.name}'s avatar`}
+          data-inspect="avatar"
           className={cn(
             "size-18 shrink-0 rounded-xl border border-foreground/40 object-cover select-none sm:size-20",
             PROFILE.avatarLight && "not-dark:hidden",
@@ -39,10 +41,12 @@ export function ProfileHeader({ apps }: { apps: App[] }) {
         />
         <div className="min-w-0 space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
+            <h1 data-inspect="h1" className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
             <VerifiedIcon className="size-5 select-none" />
           </div>
-          <FlipSentences className="h-6" sentences={PROFILE.flipSentences} />
+          <div data-inspect="tagline">
+            <FlipSentences className="h-6" sentences={PROFILE.flipSentences} />
+          </div>
           {PROFILE.location && (
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
               <MapPinIcon className="size-3.5" aria-hidden />

@@ -50,7 +50,7 @@ export function Projects({ apps }: { apps: App[] }) {
           Projects
         </PanelTitle>
 
-        <div role="tablist" aria-label="Project type" className="flex w-full rounded-xl border bg-surface p-1 sm:w-auto">
+        <div data-inspect="tabs" role="tablist" aria-label="Project type" className="flex w-full rounded-xl border bg-surface p-1 sm:w-auto">
           {TABS.map((t) => (
             <button
               key={t.id}

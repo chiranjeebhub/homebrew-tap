@@ -19,6 +19,7 @@ import {
   SunIcon,
   UserIcon,
   BeerIcon,
+  ScanSearchIcon,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -26,6 +27,7 @@ import { PROFILE } from "@/content/profile"
 import { SECTIONS } from "@/lib/sections"
 import { cn } from "@/lib/utils"
 
+import { INSPECT_EVENT } from "./inspect-swarm"
 import { GitHubIcon, LinkedInIcon, XIcon } from "./icons"
 import { Monogram } from "./monogram"
 
@@ -54,7 +56,7 @@ const LINKS = [
   { label: "Buy Me a Coffee", href: PROFILE.support.buyMeACoffee, icon: CoffeeIcon },
 ].filter((l) => l.href)
 
-const ACTIONS = { section: "Go to section", app: "Show project", link: "Open link", theme: "Set theme" }
+const ACTIONS = { inspect: "Run", section: "Go to section", app: "Show project", link: "Open link", theme: "Set theme" }
 
 /** Scrolls to a section the same way a nav link does, so the header highlight follows. */
 function goTo(id: string) {
@@ -192,6 +194,22 @@ export function CommandMenu({ apps }: { apps: MenuApp[] }) {
                 {l.label}
               </Item>
             ))}
+          </Group>
+
+          <Group heading="Fun">
+            <Item
+              value="inspect:Inspect this page"
+              keywords={["agents", "cursors", "measure", "design"]}
+              onSelect={() =>
+                run(() => {
+                  window.scrollTo({ top: 0, behavior: "instant" })
+                  setTimeout(() => window.dispatchEvent(new Event(INSPECT_EVENT)), 250)
+                })
+              }
+            >
+              <ScanSearchIcon />
+              Inspect this page
+            </Item>
           </Group>
 
           <Group heading="Theme">

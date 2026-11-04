@@ -38,11 +38,11 @@ export function About() {
       </PanelHeader>
       <PanelContent className="space-y-4 py-6">
         {PROFILE.intro && (
-          <p className="text-base/relaxed text-pretty text-muted-foreground">
+          <p data-inspect="intro" className="text-base/relaxed text-pretty text-muted-foreground">
             <Inline text={PROFILE.intro} />
           </p>
         )}
-        <ul className="space-y-3 text-base/relaxed text-pretty text-muted-foreground">
+        <ul data-inspect="platforms" className="space-y-3 text-base/relaxed text-pretty text-muted-foreground">
           {PROFILE.about.map((item) => {
             const Icon = ICONS[item.platform]
             return (

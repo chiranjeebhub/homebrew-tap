@@ -13,7 +13,7 @@ export function SiteNav() {
   const active = useActiveSection(IDS)
 
   return (
-    <nav className="ml-auto flex items-center gap-4 text-sm max-md:hidden" aria-label="Main">
+    <nav data-inspect="nav" className="ml-auto flex items-center gap-4 text-sm max-md:hidden" aria-label="Main">
       {NAV.map((item) => (
         <a
           key={item.label}

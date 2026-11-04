@@ -11,7 +11,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
       <div className="screen-line-bottom mx-auto flex h-(--header-height) max-w-3xl items-center gap-4 border-x border-dashed border-line px-4">
-        <a href="#" className="text-foreground" aria-label="Home">
+        <a href="#" className="text-foreground" aria-label="Home" data-inspect="logo">
           <Monogram />
         </a>
 
