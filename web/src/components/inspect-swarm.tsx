@@ -2,26 +2,19 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { Monogram } from "./monogram"
-
 /*
-  "Inspect" intro: a handful of multiplayer-style cursors, each named after one of the apps, fly in and
+  "Inspect" intro: three multiplayer-style cursors, each named after one of the apps, fly in and
   measure the page the way a design tool does: they drag a selection box over an element and tag it
   with its name and size. Rulers and column guides fade in around them, and a status pill counts the
   layers. Runs once per browser session, never with reduced motion, and can be replayed from ⌘K.
 */
 
+// Kept to three so the page never feels crowded.
 const AGENTS = [
   { name: "Clipstack", color: "#3b82f6" },
   { name: "NotchDeck", color: "#d946ef" },
-  { name: "Hushtype", color: "#8b5cf6" },
-  { name: "Shotwright", color: "#06b6d4" },
   { name: "Sweep", color: "#f59e0b" },
-  { name: "Bucket Browser", color: "#22c55e" },
 ]
-
-// Extra unnamed cursors that only join the opening flock.
-const FLOCK_COLORS = ["#f43f5e", "#38bdf8", "#a3e635", "#fb923c", "#e879f9", "#2dd4bf", "#facc15", "#818cf8"]
 
 const SEEN_KEY = "inspected"
 export const INSPECT_EVENT = "inspect-page"
@@ -63,7 +56,6 @@ const onScreen = (el: HTMLElement) => {
 export function InspectSwarm() {
   const layer = useRef<HTMLDivElement>(null)
   const [busy, setBusy] = useState(0)
-  const [logo, setLogo] = useState(false)
   const [status, setStatus] = useState({ done: 0, total: 0 })
 
   useEffect(() => {
@@ -77,8 +69,6 @@ export function InspectSwarm() {
     const working = new Set<string>() // agent names out on the page
     let done = 0
     let ended = false
-    let gated = false // true while the opening flock plays; cursors wait to be sent out
-    let crewFromFlock = new Map<string, Cursor>() // named cursors left off screen by the flock, reused for work
     let flock: Flock | null = null // cursors gathering to leave together
 
     const io = new IntersectionObserver(
@@ -96,9 +86,9 @@ export function InspectSwarm() {
     }
 
     function pump() {
-      if (gated || ended) return
+      if (ended) return
       // Send out another cursor while there is more waiting than the crew can take, up to the whole crew.
-      const crew = window.innerWidth < 640 ? 3 : AGENTS.length
+      const crew = window.innerWidth < 640 ? 2 : AGENTS.length
       for (const agent of AGENTS) {
         if (working.size >= Math.min(crew, queue.length)) break
         if (!working.has(agent.name)) dispatch(agent)
@@ -127,15 +117,12 @@ export function InspectSwarm() {
       if (!root) return
       working.add(agent.name)
       setBusy(working.size)
-      let cursor = crewFromFlock.get(agent.name)
-      crewFromFlock.delete(agent.name)
-      if (!cursor) {
-        cursor = new Cursor(root, agent.color, agent.name)
-        const first = queue[0]?.getBoundingClientRect()
-        const y0 = window.scrollY + (first ? first.top : window.innerHeight / 2) + (Math.random() - 0.5) * 200
-        cursor.jump(Math.random() < 0.5 ? -40 : window.innerWidth + 40, y0)
-        await sleep(30 + Math.random() * 200)
-      }
+      // Glides in from the nearer side, level with its first job.
+      const cursor = new Cursor(root, agent.color, agent.name)
+      const first = queue[0]?.getBoundingClientRect()
+      const y0 = window.scrollY + (first ? first.top : window.innerHeight / 2)
+      cursor.jump(first && first.left < window.innerWidth / 2 ? -40 : window.innerWidth + 40, y0)
+      await sleep(30 + Math.random() * 200)
 
       let idle = 0
       while (!ended && idle < 3) {
@@ -185,7 +172,7 @@ export function InspectSwarm() {
 
     /*
       Exit: idle cursors regroup at the right of the screen, wait for the rest of the crew (or a moment),
-      swirl once as a flock and stream off the top-right corner together.
+      then glide off the top-right corner together.
     */
     async function leaveTogether(cursor: Cursor) {
       cursor.label(false)
@@ -215,48 +202,13 @@ export function InspectSwarm() {
     }
 
     async function flyOff(group: Cursor[], c: { x: number; y: number }) {
-      await sleep(450)
-      await swirl(group, c.x, c.y, 650, 26, 58)
+      await sleep(500)
       group.forEach((cur, i) => {
         setTimeout(() => {
           cur.move(window.scrollX + window.innerWidth + 120, window.scrollY - 140 + i * 22, 700, true, "cubic-bezier(0.5, 0, 0.9, 0.5)")
           setTimeout(() => cur.remove(), 900)
         }, i * 55)
       })
-    }
-
-    /*
-      Entrance: a flock of cursors circles the CJ logo in the middle of the empty page, then bursts out to
-      the edges. The named ones stay just off screen and come back in to start building.
-    */
-    async function openingFlock() {
-      const root = layer.current
-      if (!root) return
-      gated = true
-      setLogo(true)
-      const cx = window.scrollX + window.innerWidth / 2
-      const cy = window.scrollY + window.innerHeight / 2
-      const named = AGENTS.map((a) => new Cursor(root, a.color, a.name))
-      const extras = Array.from({ length: window.innerWidth < 640 ? 8 : 16 }, (_, i) => new Cursor(root, FLOCK_COLORS[i % FLOCK_COLORS.length]))
-      const all = [...named, ...extras].sort(() => Math.random() - 0.5)
-      await swirl(all, cx, cy, 1900, 54, 150, true)
-
-      // Burst outwards along each cursor's heading.
-      const far = Math.hypot(window.innerWidth, window.innerHeight) * 0.65
-      all.forEach((cur, i) => {
-        const a = Math.atan2(cur.y - cy, cur.x - cx) + 0.5
-        setTimeout(() => cur.move(cx + Math.cos(a) * far, cy + Math.sin(a) * far, 650, true, "cubic-bezier(0.55, 0, 0.9, 0.45)"), i * 12)
-      })
-      setLogo(false)
-      await sleep(750)
-      extras.forEach((e) => e.remove())
-      named.forEach((n, i) => crewFromFlock.set(AGENTS[i].name, n))
-      gated = false
-      pump()
-      // Any named cursor not needed now just stays out of sight.
-      await sleep(1500)
-      crewFromFlock.forEach((c) => c.remove())
-      crewFromFlock = new Map()
     }
 
     function start() {
@@ -274,7 +226,6 @@ export function InspectSwarm() {
       )
       setStatus({ done: 0, total: pending.size })
       pending.forEach((el) => io.observe(el))
-      openingFlock()
       pending.forEach((el) => onScreen(el) && enqueue(el))
     }
 
@@ -322,12 +273,6 @@ export function InspectSwarm() {
       <div ref={layer} aria-hidden className="pointer-events-none absolute top-0 left-0 z-[60] h-0 w-full" />
       <div aria-hidden className="pointer-events-none fixed inset-0 z-[60]">
         <Rulers visible={active} />
-        <div
-          className="absolute top-1/2 left-1/2 flex size-16 items-center justify-center rounded-2xl border bg-surface text-foreground shadow-lg transition-all duration-500"
-          style={{ opacity: logo ? 1 : 0, transform: `translate(-50%, -50%) scale(${logo ? 1 : 0.6})` }}
-        >
-          <Monogram className="h-4 w-7" />
-        </div>
         <div
           className="absolute bottom-6 left-1/2 flex items-center gap-2 rounded-full border bg-background/85 px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-sm backdrop-blur-md transition-all duration-300"
           style={{ opacity: active ? 1 : 0, transform: `translate(-50%, ${active ? 0 : 8}px)` }}
@@ -377,9 +322,8 @@ function Rulers({ visible }: { visible: boolean }) {
 }
 
 /**
-  A multiplayer-style cursor, optionally with a name tag. Three faded copies follow it a beat behind,
-  which reads as a motion trail when it moves fast. With `turn`, it points the way it travels, like a
-  bird in the flock; otherwise it stays upright like a normal pointer.
+  A multiplayer-style cursor with a name tag. With `turn`, it points the way it travels (used when the
+  group leaves); otherwise it stays upright like a normal pointer.
 */
 class Cursor {
   x = 0
@@ -388,13 +332,12 @@ class Cursor {
   private tag?: HTMLElement
 
   constructor(root: HTMLElement, color: string, name?: string) {
-    const size = name ? 18 : 14
+    const size = 18
     const svg = `<svg width="${size}" height="${size}" viewBox="0 0 18 18" style="display:block;filter:drop-shadow(0 1px 2px rgb(0 0 0 / .35))"><path d="M2 1.5 L16 7.6 L9.6 9.4 L7.2 16 Z" fill="${color}" stroke="white" stroke-width="1.4" stroke-linejoin="round"/></svg>`
-    this.parts = [0, 1, 2, 3].map((k) => {
+    this.parts = [0].map(() => {
       const el = document.createElement("div")
       el.className = "absolute top-0 left-0 will-change-transform"
       el.style.transformOrigin = "2px 1.5px"
-      el.style.opacity = String([1, 0.4, 0.22, 0.1][k])
       el.innerHTML = svg
       root.appendChild(el)
       return el
@@ -408,8 +351,6 @@ class Cursor {
       this.tag.textContent = name
       this.parts[0].appendChild(this.tag)
     }
-    // The trail sits behind the cursor.
-    this.parts.slice(1).forEach((p) => root.insertBefore(p, this.parts[0]))
   }
 
   label(on: boolean) {
@@ -426,25 +367,14 @@ class Cursor {
     }
   }
 
-  /** Glides somewhere, the trail following a little later. */
+  /** Glides somewhere. */
   move(x: number, y: number, ms: number, turn = false, curve = ease) {
     const angle = turn ? heading(x - this.x, y - this.y) : 0
     this.x = x
     this.y = y
-    this.parts.forEach((p, k) => {
-      p.style.transition = `transform ${ms}ms ${curve} ${k * 30}ms`
+    this.parts.forEach((p) => {
+      p.style.transition = `transform ${ms}ms ${curve}`
       p.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`
-    })
-  }
-
-  /** Sets the cursor and each trail copy to its own point, for frame-by-frame motion. */
-  frame(points: { x: number; y: number; angle: number }[]) {
-    this.x = points[0].x
-    this.y = points[0].y
-    this.parts.forEach((p, k) => {
-      const pt = points[k] ?? points[points.length - 1]
-      p.style.transition = "none"
-      p.style.transform = `translate(${pt.x}px, ${pt.y}px) rotate(${pt.angle}deg)`
     })
   }
 
@@ -457,44 +387,6 @@ class Cursor {
 function heading(dx: number, dy: number) {
   if (Math.abs(dx) + Math.abs(dy) < 1) return 0
   return (Math.atan2(dy, dx) * 180) / Math.PI + 135
-}
-
-/**
-  Flies cursors round a point together for `ms`, each on its own slightly wobbly ellipse, facing the way
-  it moves. With `fadeIn` they spiral in from further out.
-*/
-function swirl(cursors: Cursor[], cx: number, cy: number, ms: number, rMin: number, rMax: number, fadeIn = false) {
-  const birds = cursors.map(() => ({
-    a0: Math.random() * Math.PI * 2,
-    w: 2.6 + Math.random() * 1.6,
-    r: rMin + Math.random() * (rMax - rMin),
-    wob: Math.random() * Math.PI * 2,
-  }))
-  const pos = (b: (typeof birds)[number], t: number, enter: number) => {
-    const a = b.a0 + b.w * t
-    const r = (b.r + 10 * Math.sin(b.wob + t * 5)) * (1 + 2.5 * enter)
-    return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r * 0.72, a }
-  }
-  const t0 = performance.now()
-  return new Promise<void>((done) => {
-    const tick = (now: number) => {
-      const t = (now - t0) / 1000
-      const enter = fadeIn ? Math.max(0, 1 - t / 0.7) ** 2 : 0
-      cursors.forEach((c, i) => {
-        const b = birds[i]
-        c.frame(
-          [0, 0.03, 0.06, 0.09].map((lag) => {
-            const p = pos(b, Math.max(0, t - lag), fadeIn ? Math.max(0, 1 - Math.max(0, t - lag) / 0.7) ** 2 : 0)
-            const q = pos(b, Math.max(0, t - lag) + 0.01, enter)
-            return { x: p.x, y: p.y, angle: heading(q.x - p.x, q.y - p.y) }
-          }),
-        )
-      })
-      if (now - t0 < ms) requestAnimationFrame(tick)
-      else done()
-    }
-    requestAnimationFrame(tick)
-  })
 }
 
 function makeBox(x: number, y: number, w: number, h: number, label: string, color: string) {
