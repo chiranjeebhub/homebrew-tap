@@ -24,7 +24,7 @@ export function Contact() {
 
   return (
     <Panel id="contact" aria-label="Contact" className="target-flash">
-      <ul className={cn("grid grid-cols-1", COLUMNS[links.length])}>
+      <ul data-inspect="contact" className={cn("grid grid-cols-1", COLUMNS[links.length])}>
         {links.map((item, i) => {
           const external = !item.href.startsWith("mailto:")
           return (

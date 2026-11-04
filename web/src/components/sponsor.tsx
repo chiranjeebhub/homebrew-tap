@@ -14,7 +14,7 @@ export function Sponsor() {
       <PanelHeader>
         <PanelTitle id="sponsor">Sponsor</PanelTitle>
       </PanelHeader>
-      <PanelContent className="space-y-4">
+      <PanelContent data-inspect="support" className="space-y-4">
         <p className="text-balance text-muted-foreground">
           The apps are free. If one of them saves you time, sponsoring helps me keep them maintained and build the next
           one.

@@ -48,7 +48,7 @@ export function Stack() {
         <PanelTitle id="stack">Stack</PanelTitle>
       </PanelHeader>
       {STACK.map((group, i) => (
-        <div key={group.name} className={cn("grid sm:grid-cols-[13rem_1fr]", i > 0 && "border-t border-line")}>
+        <div key={group.name} data-inspect={group.name.toLowerCase()} className={cn("grid sm:grid-cols-[13rem_1fr]", i > 0 && "border-t border-line")}>
           <h3 className="flex items-baseline gap-2.5 px-4 pt-4 font-medium sm:border-r sm:border-dashed sm:border-line sm:py-4">
             <span className="font-mono text-sm text-muted-foreground tabular-nums">{String(i + 1).padStart(2, "0")}</span>
             {group.name}

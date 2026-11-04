@@ -13,7 +13,7 @@ export function Homebrew({ apps }: { apps: App[] }) {
       <PanelHeader>
         <PanelTitle id="homebrew">Homebrew</PanelTitle>
       </PanelHeader>
-      <PanelContent className="space-y-3">
+      <PanelContent data-inspect="install" className="space-y-3">
         <p className="text-balance text-muted-foreground">
           Every Mac app here ships through my{" "}
           <a className="link text-foreground" href={PROFILE.repo} target="_blank" rel="noopener">
