@@ -74,7 +74,7 @@ export function Projects({ apps }: { apps: App[] }) {
       </PanelHeader>
 
       {shown.length > 0 ? (
-        <ul role="tabpanel" aria-label={tab.label}>
+        <ul data-inspect="list" role="tabpanel" aria-label={tab.label}>
           {shown.map((app, i) => (
             <li key={app.id} id={`project-${app.id}`} className={cn(i > 0 && "border-t border-line")}>
               <AppItem app={app} />

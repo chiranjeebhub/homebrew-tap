@@ -21,6 +21,9 @@ const AGENTS = [
 const SEEN_KEY = "inspected"
 export const INSPECT_EVENT = "inspect-page"
 
+/** Runs in <head> before first paint: hides the content when the intro is about to play. */
+export const INSPECT_HEAD_SCRIPT = `try{if(sessionStorage.getItem("${SEEN_KEY}")!=="1"&&!location.hash&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("inspecting");setTimeout(function(){document.documentElement.classList.remove("inspecting")},15000)}}catch(e){}`
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 const ease = "cubic-bezier(0.65, 0, 0.35, 1)"
 
@@ -32,9 +35,32 @@ function visibleTargets(): Target[] {
   return Array.from(document.querySelectorAll<HTMLElement>("[data-inspect]"))
     .filter((el) => {
       const r = el.getBoundingClientRect()
-      return r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= vh - 40
+      return r.width > 0 && r.height > 0 && r.top < vh - 40 && r.bottom > 0
     })
     .map((el) => ({ el, label: el.dataset.inspect || el.tagName.toLowerCase() }))
+}
+
+/*
+  While <html> has the "inspecting" class, every [data-inspect] element is hidden (globals.css), so the
+  page starts as just its frame of lines. The class is set before first paint by the script in the
+  layout, and each element is wiped in as a cursor drags its selection box over it.
+*/
+const HIDE_CLASS = "inspecting"
+
+function reveal(el: HTMLElement, ms: number) {
+  el.style.transition = ms ? `clip-path ${ms}ms ${ease}, opacity 150ms ease` : "none"
+  el.style.opacity = "1"
+  el.style.clipPath = "inset(-12px -12px -12px -12px)"
+}
+
+/** Shows everything again and hands styling back to the stylesheet. */
+function revealAll() {
+  document.documentElement.classList.remove(HIDE_CLASS)
+  document.querySelectorAll<HTMLElement>("[data-inspect]").forEach((el) => {
+    el.style.removeProperty("transition")
+    el.style.removeProperty("opacity")
+    el.style.removeProperty("clip-path")
+  })
 }
 
 export function InspectSwarm() {
@@ -54,7 +80,14 @@ export function InspectSwarm() {
       const stop = (e: KeyboardEvent) => e.key === "Escape" && abort.abort()
       window.addEventListener("keydown", stop)
 
+      document.documentElement.classList.add(HIDE_CLASS)
       const targets = visibleTargets()
+      // Anything off screen is never visited, so it shows normally.
+      document.querySelectorAll<HTMLElement>("[data-inspect]").forEach((el) => {
+        if (!targets.some((t) => t.el === el)) reveal(el, 0)
+      })
+      const stopEarly = () => revealAll()
+      abort.signal.addEventListener("abort", stopEarly)
       const agents = AGENTS.slice(0, window.innerWidth < 640 ? 3 : AGENTS.length)
       setStatus({ done: 0, total: targets.length, finished: false })
       setActive(true)
@@ -76,17 +109,18 @@ export function InspectSwarm() {
           for (const t of queues[i]) {
             if (abort.signal.aborted) break
             const r = t.el.getBoundingClientRect()
-            place(cursor, r.left, r.top, 650)
-            await sleep(700)
+            place(cursor, r.left, r.top, 550)
+            await sleep(600)
             if (abort.signal.aborted) break
             const box = makeBox(r, t.label, agent.color)
             root.appendChild(box)
             // Drag out the selection: the cursor travels to the far corner as the box grows.
             requestAnimationFrame(() => {
               box.style.clipPath = "inset(-6px -200px -32px -200px)"
-              place(cursor, r.right, r.bottom, 520)
+              reveal(t.el, 500)
+              place(cursor, r.right, r.bottom, 500)
             })
-            await sleep(560)
+            await sleep(540)
             box.querySelector<HTMLElement>("[data-tag]")!.style.opacity = "1"
             setStatus((s) => ({ ...s, done: ++done }))
             await sleep(420)
@@ -103,6 +137,7 @@ export function InspectSwarm() {
         }),
       )
 
+      revealAll()
       setStatus((s) => ({ ...s, done: s.total, finished: true }))
       await sleep(abort.signal.aborted ? 0 : 1300)
       setActive(false)
@@ -115,12 +150,12 @@ export function InspectSwarm() {
     const replay = () => run()
     window.addEventListener(INSPECT_EVENT, replay)
 
-    let seen = false
+    // The layout's head script already decided whether to play (and hid the content if so).
     try {
-      seen = sessionStorage.getItem(SEEN_KEY) === "1"
       sessionStorage.setItem(SEEN_KEY, "1")
     } catch {}
-    const startup = !seen && !reduced && window.scrollY < 40 && !location.hash ? setTimeout(run, 700) : undefined
+    const play = document.documentElement.classList.contains(HIDE_CLASS)
+    const startup = play && !reduced && window.scrollY < 40 ? setTimeout(run, 400) : (revealAll(), undefined)
 
     return () => {
       clearTimeout(startup)

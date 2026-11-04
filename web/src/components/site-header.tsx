@@ -17,7 +17,7 @@ export async function SiteHeader() {
 
         <SiteNav />
 
-        <div className="flex items-center gap-2 max-sm:ml-auto">
+        <div data-inspect="actions" className="flex items-center gap-2 max-sm:ml-auto">
           <CommandMenu
             apps={apps.map((a) => ({ id: a.id, name: a.name, icon: a.icon, platforms: a.platforms }))}
           />

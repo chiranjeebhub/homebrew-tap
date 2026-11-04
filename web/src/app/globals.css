@@ -216,3 +216,9 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
+
+/* Inspect intro: content waits hidden until a cursor's selection box wipes it in (inspect-swarm.tsx). */
+html.inspecting [data-inspect] {
+  opacity: 0;
+  clip-path: inset(0 100% 100% 0);
+}

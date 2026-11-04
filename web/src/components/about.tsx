@@ -56,7 +56,7 @@ export function About() {
           })}
         </ul>
         {PROFILE.outro && (
-          <p className="text-base/relaxed text-pretty text-muted-foreground">
+          <p data-inspect="outro" className="text-base/relaxed text-pretty text-muted-foreground">
             <Inline text={PROFILE.outro} />
           </p>
         )}

@@ -40,8 +40,8 @@ export function ProfileHeader({ apps }: { apps: App[] }) {
           )}
         />
         <div className="min-w-0 space-y-1">
-          <div className="flex items-center gap-2">
-            <h1 data-inspect="h1" className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
+          <div data-inspect="name" className="flex w-fit items-center gap-2">
+            <h1 className="text-2xl/tight font-medium tracking-tight sm:text-[1.75rem]/tight">{PROFILE.name}</h1>
             <VerifiedIcon className="size-5 select-none" />
           </div>
           <div data-inspect="tagline">

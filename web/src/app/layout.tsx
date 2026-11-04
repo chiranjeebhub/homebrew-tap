@@ -3,7 +3,7 @@ import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 
 import { SiteFooter } from "@/components/site-footer"
-import { InspectSwarm } from "@/components/inspect-swarm"
+import { INSPECT_HEAD_SCRIPT, InspectSwarm } from "@/components/inspect-swarm"
 import { SectionIndex } from "@/components/section-index"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -50,6 +50,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INSPECT_HEAD_SCRIPT }} />
+      </head>
       <body>
         <ThemeProvider>
           <SiteHeader />

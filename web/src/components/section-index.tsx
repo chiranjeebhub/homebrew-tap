@@ -13,6 +13,7 @@ export function SectionIndex() {
 
   return (
     <nav
+      data-inspect="index"
       aria-label="Index"
       className="fixed top-1/3 left-[calc(50%+24rem+2.5rem)] z-40 hidden font-mono text-sm min-[1180px]:block"
     >
