@@ -1,8 +1,8 @@
 # Template for the cask in the chiranjeebhub/homebrew-tap tap. scripts/release-direct.sh fills
 # in the version and checksum and pushes it there.
 cask "clipstack" do
-  version "1.3.1"
-  sha256 "d853066707340473d8b5205f20b5212d5a53d8d967f56624a68c4d86380c5e36"
+  version "1.3.2"
+  sha256 "be6961f637adc1a37ecd3ced4add7e78e731879e0cf981cc8036bcae7f05f1f8"
 
   url "https://github.com/chiranjeebhub/ClipStack/releases/download/v#{version}/Clipstack-#{version}.dmg"
   name "Clipstack"
