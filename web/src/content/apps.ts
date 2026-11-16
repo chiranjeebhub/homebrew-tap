@@ -60,9 +60,8 @@ export const OTHER_APPS: App[] = [
     description: "A real-time workspace that brings tasks, files, conversations and deadlines together, on web and mobile.",
     platforms: ["Web", "iOS"],
     icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8d/dd/d4/8dddd40f-a3ec-66e2-5be0-6e7ff005c05b/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.png",
-    status: "iOS beta in review",
     order: 4,
-    links: { website: "https://taskrooms.com/", testFlight: "https://testflight.apple.com/join/efMsxqFP" },
+    links: { appStore: "https://apps.apple.com/in/app/taskrooms-tasks-chat/id6818674318", website: "https://taskrooms.com/" },
   },
   {
     id: "game",
