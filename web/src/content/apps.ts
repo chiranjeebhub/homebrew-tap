@@ -22,6 +22,15 @@ export const CASK_OVERRIDES: Record<string, Partial<App>> = {
 export const OTHER_APPS: App[] = [
   // Mobile
   {
+    id: "gita-shuffle",
+    name: "Gita Shuffle",
+    description: "A random verse from the Bhagavad Gita, with the Sanskrit, a transliteration, its meaning and recitation audio. Optimised for iPhone, iPhone Duo and iPad.",
+    platforms: ["iOS", "Web"],
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6f/2d/8b/6f2d8b6b-9a9a-0d71-0d03-9481b698d98e/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg",
+    order: 0,
+    links: { appStore: "https://apps.apple.com/app/gita-shuffle/id6825326033", website: "https://gitashuffle.com/" },
+  },
+  {
     id: "garage-hq",
     name: "Garage HQ",
     description: "Network OS for business. Manage your company's networks, stakeholders and connections in one virtual office.",
@@ -66,14 +75,6 @@ export const OTHER_APPS: App[] = [
   },
 
   // Web
-  {
-    id: "gita-shuffle",
-    name: "Gita Shuffle",
-    description: "A random verse from the Bhagavad Gita every day, with the Sanskrit, a transliteration and its meaning.",
-    platforms: ["Web"],
-    order: 11,
-    links: { website: "https://gitashuffle.com/" },
-  },
   {
     id: "devstorage",
     name: "DevStorage",
