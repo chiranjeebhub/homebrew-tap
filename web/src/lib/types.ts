@@ -20,6 +20,8 @@ export type App = {
     testFlight?: string
     googlePlay?: string
     website?: string
+    /** The app's privacy policy. */
+    privacy?: string
   }
 }
 

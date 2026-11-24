@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ChevronsUpDownIcon, DownloadIcon, GlobeIcon, LaptopIcon, RefreshCwIcon, SmartphoneIcon } from "lucide-react"
+import { ChevronsUpDownIcon, DownloadIcon, GlobeIcon, LaptopIcon, RefreshCwIcon, ShieldCheckIcon, SmartphoneIcon } from "lucide-react"
 
 import { PROFILE } from "@/content/profile"
 import type { App, Platform } from "@/lib/types"
@@ -196,6 +196,12 @@ function AppItem({ app }: { app: App }) {
             <ButtonLink href={links.website}>
               <GlobeIcon />
               Website
+            </ButtonLink>
+          )}
+          {links.privacy && (
+            <ButtonLink href={links.privacy}>
+              <ShieldCheckIcon />
+              Privacy
             </ButtonLink>
           )}
         </div>
