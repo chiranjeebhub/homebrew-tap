@@ -13,7 +13,12 @@ export const CASK_OVERRIDES: Record<string, Partial<App>> = {
   clipstack: { order: 1 },
   notchdeck: { order: 2 },
   "bucket-browser": { order: 3 },
+  hushtype: {
+    links: { website: "https://hushtype.chiranjeeb.dev/", privacy: "https://hushtype.chiranjeeb.dev/privacy" },
+  },
 }
+
+const HUSHTYPE_ICON = "https://raw.githubusercontent.com/chiranjeebhub/hushtype/main/docs/icon.png"
 
 // Apps that are not in the tap: iOS, Android and web apps. The Projects toggle
 // puts iOS and Android under Mobile Apps and "Web" under Web Apps; an app with
@@ -71,6 +76,30 @@ export const OTHER_APPS: App[] = [
     status: "TestFlight review",
     order: 5,
     links: { testFlight: "https://testflight.apple.com/join/GAHyDp75" },
+  },
+  {
+    id: "hushtype-ios",
+    name: "Hushtype for iPhone",
+    description: "A keyboard for iPhone and iPad with Hushtype dictation built in: speak, and polished text lands in any app. Speech is recognized on the device.",
+    platforms: ["iOS"],
+    icon: HUSHTYPE_ICON,
+    status: "Coming soon",
+    order: 6,
+    links: { website: "https://hushtype.chiranjeeb.dev/", privacy: "https://hushtype.chiranjeeb.dev/privacy" },
+  },
+  {
+    id: "hushtype-android",
+    name: "Hushtype for Android",
+    description: "Dictate into any app from a floating bubble. On-device speech, polished by Gemini Nano or Claude.",
+    platforms: ["Android"],
+    icon: HUSHTYPE_ICON,
+    status: "Early preview",
+    order: 7,
+    links: {
+      source: "https://github.com/chiranjeebhub/hushtype-android",
+      website: "https://hushtype.chiranjeeb.dev/",
+      privacy: "https://hushtype.chiranjeeb.dev/privacy",
+    },
   },
 
   // Web
